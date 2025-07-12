@@ -2,6 +2,8 @@ import React, { useContext, useState, useMemo } from 'react';
 import { MessageContext } from '../Contexts/MessageContext.jsx';
 import ContactsList from '../Components/Contacts/ContactList.jsx';
 import Chat from '../Components/Chat/Chat.jsx';
+import Logout from '../Components/Login/Logout.jsx';
+import './styles/ChatScreen.css';
 
 export default function ChatScreen() {
     const { messagesByContact, sendMessage } = useContext(MessageContext);
@@ -28,17 +30,36 @@ export default function ChatScreen() {
     const messages = messagesByContact[activeContactId] || [];
 
     return (
-        <div style={{ display: 'flex', height: '100vh' }}>
-            <ContactsList
-                contacts={contactsWithLastMessage}
-                activeContactId={activeContactId}
-                onSelect={setActiveContactId}
-            />
-            <Chat
-                contact={contacts.find(c => c.id === activeContactId)}
-                messages={messages}
-                onSendMessage={(text) => sendMessage(activeContactId, text)}
-            />
+        <div className="chat-screen">
+            {/* Sidebar */}
+            <div className="sidebar">
+                <div className="sidebar-header">
+                    <span className="logo">ChatApp</span>
+                    <button className="add-contact">＋</button>
+                </div>
+
+                <ContactsList
+                    contacts={contactsWithLastMessage}
+                    activeContactId={activeContactId}
+                    onSelect={setActiveContactId}
+                />
+
+                <div className="sidebar-footer">⚙️</div>
+            </div>
+
+            {/* Chat Panel */}
+            <div className="chat-panel">
+                <div className="chat-header">
+                    <img src={activeContactId?.photo} alt={activeContactId?.name} />
+                    <span>{activeContactId?.name}</span>
+                </div>
+
+                <Chat
+                    contact={activeContactId}
+                    messages={messages}
+                    onSendMessage={(text) => sendMessage(activeContactId, text)}
+                />
+            </div>
         </div>
     );
 }

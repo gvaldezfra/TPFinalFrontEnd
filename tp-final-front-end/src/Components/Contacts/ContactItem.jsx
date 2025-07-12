@@ -1,4 +1,3 @@
-// src/Components/Contacts/ContactItem.jsx
 import React from 'react';
 
 function formatTime(timestamp) {
@@ -8,10 +7,8 @@ function formatTime(timestamp) {
     const isToday = date.toDateString() === now.toDateString();
 
     if (isToday) {
-        // Mostrar solo hora: mm:ss
         return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     } else {
-        // Mostrar fecha corta: DD/MM
         return date.toLocaleDateString([], { day: '2-digit', month: '2-digit' });
     }
 }
@@ -21,7 +18,7 @@ export default function ContactItem({ contact, isActive, onClick }) {
 
     return (
         <div
-            onClick={() => onClick(contact.id)}
+            onClick={onClick}
             style={{
                 cursor: 'pointer',
                 padding: '10px',
