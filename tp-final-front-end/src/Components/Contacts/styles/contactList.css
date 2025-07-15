@@ -1,0 +1,7 @@
+
+.contacts-list-container{
+        width: 200;
+        border-right: '1px solid #ccc';
+        overflow-y: 'auto';
+        height: 100%;
+    }

@@ -1,6 +1,7 @@
 import React from 'react';
 import Message from './Message.jsx';
 import NewMessageForm from './NewMessageForm.jsx';
+import './styles/Chat.css';
 
 export default function Chat({ contact, messages, onSendMessage }) {
   if (!contact) {
@@ -8,11 +9,12 @@ export default function Chat({ contact, messages, onSendMessage }) {
   }
 
   return (
-    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: 20 }}>
+    <div style={{ width: '100%', flex: 1, display: 'flex', flexDirection: 'column', padding: 20 }}>
       <div style={{ marginBottom: 10, fontWeight: 'bold' }}>{contact.name}</div>
 
       <div
         style={{
+          width: '100%',
           flex: 1,
           overflowY: 'auto',
           display: 'flex',
@@ -21,12 +23,16 @@ export default function Chat({ contact, messages, onSendMessage }) {
         }}
       >
         {messages.map((msg) => (
-          <Message
+          <div
             key={msg.id}
-            message={msg}
-            isOwn={msg.sender === 'me'}
-            contactId={contact.id}
-          />
+            className={`message-wrapper ${msg.sender === 'me' ? 'own' : 'theirs'}`}
+          >
+            <Message
+              message={msg}
+              isOwn={msg.sender === 'me'}
+              contactId={contact.id}
+            />
+          </div>
         ))}
       </div>
 

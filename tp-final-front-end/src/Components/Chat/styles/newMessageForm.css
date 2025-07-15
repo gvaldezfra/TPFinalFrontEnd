@@ -1,0 +1,32 @@
+.new-message-form {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+    padding-top: 10px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.new-message-input {
+    flex: 1;
+    width: 100%;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.new-message-button {
+    padding: 10px 16px;
+    border: none;
+    background-color: #1976d2;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.new-message-button:hover {
+    background-color: #1565c0;
+}

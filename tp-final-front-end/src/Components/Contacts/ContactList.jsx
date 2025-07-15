@@ -1,16 +1,10 @@
 import React from 'react';
 import ContactItem from './ContactItem.jsx';
+import './styles/ContactList.css';
 
 export default function ContactsList({ contacts, activeContactId, onSelect }) {
   return (
-    <div
-      style={{
-        width: 250,
-        borderRight: '1px solid #ccc',
-        overflowY: 'auto',
-        height: '100vh',
-      }}
-    >
+    <div className="contacts-list-container">
       {contacts.map(contact => (
         <ContactItem
           key={contact.id}

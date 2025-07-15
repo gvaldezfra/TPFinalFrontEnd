@@ -7,20 +7,36 @@
     font-family: 'Segoe UI', sans-serif;
 }
 
-/* Sidebar */
-.sidebar {
-    width: 200px;
+/* Navbar */
+.navbar {
+    width: 60px;
     background-color: #f5f5f5;
     border-right: 1px solid #ccc;
     display: flex;
     flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+    gap: 8px;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 300px;
+    background-color: #f5f5f5;
+    border-right: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .sidebar-header {
+    height: auto;
+    width: 100%;
     padding: 10px;
     font-size: 1.2rem;
     font-weight: bold;
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #ccc;
@@ -41,15 +57,21 @@
 
 /* Chat Panel */
 .chat-panel {
+    height: 100%;
     flex: 1;
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .chat-header {
+    width: 100%;
+    justify-content: flex-start;
+    background-color: #394ca0;
     padding: 10px 20px;
     border-bottom: 1px solid #ccc;
     display: flex;
+    flex-direction: row;
     align-items: center;
     gap: 10px;
 }
@@ -64,3 +86,12 @@
 .chat-header span {
     font-weight: bold;
 }
+
+.logout-button {
+    bottom: 20px;
+    font-size: 1.2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+

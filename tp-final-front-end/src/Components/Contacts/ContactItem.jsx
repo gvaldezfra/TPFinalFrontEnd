@@ -1,4 +1,5 @@
 import React from 'react';
+import './styles/ContactItem.css';
 
 function formatTime(timestamp) {
     if (!timestamp) return '';
@@ -19,56 +20,25 @@ export default function ContactItem({ contact, isActive, onClick }) {
     return (
         <div
             onClick={onClick}
-            style={{
-                cursor: 'pointer',
-                padding: '10px',
-                backgroundColor: isActive ? '#d0e6ff' : 'transparent',
-                borderBottom: '1px solid #ccc',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-            }}
+            className={`contact-item ${isActive ? 'active' : ''}`}
         >
-            <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
+            <div className="contact-content">
                 <img
                     src={photo}
                     alt={name}
-                    style={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: '50%',
-                        marginRight: 10,
-                        objectFit: 'cover',
-                    }}
+                    className="contact-photo"
                 />
-                <div style={{ flex: 1, overflow: 'hidden' }}>
-                    <div style={{ fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                        {name}
-                    </div>
+                <div className="contact-texts">
+                    <div className="contact-name">{name}</div>
                     <div
-                        style={{
-                            color: '#555',
-                            fontSize: '0.9em',
-                            whiteSpace: 'nowrap',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            maxWidth: '100%',
-                        }}
+                        className="contact-last-message"
                         title={lastMessage}
                     >
                         {lastMessage || 'Sin mensajes aún'}
                     </div>
                 </div>
             </div>
-            <div
-                style={{
-                    marginLeft: 10,
-                    fontSize: '0.8em',
-                    color: '#888',
-                    whiteSpace: 'nowrap',
-                    flexShrink: 0,
-                }}
-            >
+            <div className="contact-time">
                 {formatTime(lastMessageTime)}
             </div>
         </div>

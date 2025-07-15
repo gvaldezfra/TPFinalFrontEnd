@@ -1,0 +1,42 @@
+.message {
+    padding: 8px 12px;
+    margin: 4px 0;
+    border-radius: 15px;
+    max-width: 70%;
+    word-break: break-word;
+    position: relative;
+    color: #000;
+}
+
+.message.own {
+    background-color: #738cdf;
+    width: fit-content;
+}
+
+.message.theirs {
+    background-color: #c9d3f3;
+    width: fit-content;
+
+}
+
+.message-deleted {
+    font-style: italic;
+    color: #888;
+    padding: 8px 12px;
+    margin: 4px 0;
+    max-width: 100%;
+    border-radius: 15px;
+    background-color: #f0f0f0;
+    word-break: break-word;
+}
+
+.message-delete-button {
+    position: absolute;
+    right: 4px;
+    border: none;
+    background: transparent;
+    color: #888;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+}
