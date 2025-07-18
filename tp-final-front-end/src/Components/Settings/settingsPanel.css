@@ -1,0 +1,49 @@
+/* src/Components/Settings/SettingsSidebar.css */
+.settings-sidebar {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  width: 300px;
+  height: 100%;
+  background: white;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+  padding: 20px;
+  transition: right 0.3s ease;
+  z-index: 1000;
+}
+
+.settings-sidebar.open {
+  right: 0;
+}
+
+.settings-sidebar h2, h3 {
+  margin-top: 0;
+}
+
+.settings-sidebar input[type="text"],
+.settings-sidebar input[type="color"] {
+  width: 100%;
+  padding: 6px;
+  margin-bottom: 10px;
+}
+
+.settings-sidebar .save-btn,
+.settings-sidebar .logout-btn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+.settings-sidebar .save-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.settings-sidebar .logout-btn {
+  background-color: #f44336;
+  color: white;
+}

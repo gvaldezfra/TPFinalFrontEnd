@@ -3,15 +3,15 @@ import './styles/AddContactForm.css';
 
 export default function AddContactForm({ onAdd, onCancel }) {
     const [name, setName] = useState('');
-    const [number, setNumber] = useState('');
+    const [email, setEmail] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!name.trim() || !number.trim()) return;
+        if (!name.trim() || !email.trim()) return;
 
-        onAdd({ name, number });
+        onAdd({ name, email});
         setName('');
-        setNumber('');
+        setEmail('');
     };
 
     return (
@@ -26,9 +26,9 @@ export default function AddContactForm({ onAdd, onCancel }) {
             />
             <input
                 type="tel"
-                placeholder="Número"
-                value={number}
-                onChange={(e) => setNumber(e.target.value)}
+                placeholder="Correo electrónico"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
             />
             <div className="add-contact-actions">

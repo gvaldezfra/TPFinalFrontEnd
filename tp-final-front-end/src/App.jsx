@@ -3,8 +3,8 @@ import './index.css';
 export default function App() {
   return (
     <div>
-      <h1>Bienvenido a la app de chat</h1>
-      <a href="/login">Ir al Login</a>
+      <h1>Bienvenido a ChattApp</h1>
+      <a href="/login">Ingresar o Registrarse</a>
     </div>
   );
 }

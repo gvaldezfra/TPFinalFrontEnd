@@ -5,6 +5,8 @@ import Chat from '../Components/Chat/Chat.jsx';
 import Logout from '../Components/Login/Logout.jsx';
 import './styles/ChatScreen.css';
 import AddContactForm from '../Components/Contacts/AddContactForm.jsx';
+import SettingsSidebar from '../Components/Settings/SettingsPanel.jsx';
+
 
 export default function ChatScreen() {
     const { messagesByContact, sendMessage } = useContext(MessageContext);
@@ -35,15 +37,24 @@ export default function ChatScreen() {
 
     const activeContact = contactsWithLastMessage.find(c => c.id === activeContactId);
 
+    const [showSettings, setShowSettings] = useState(false);
 
     return (
         <div className="chat-screen">
+            {/* Settings Sidebar */}
+            
+
             {/* Navbar */}
             <div className="navbar">
                 <button className='search-button'>🔍</button>
                 <button className='profile-button'>👤</button>
-                <button className='settings-button'>⚙️</button>
-            </div>
+                <button className='settings-button' onClick={() => setShowSettings(true)}>⚙️</button> 
+                {showSettings && (
+                <div className="settings-sidebar">
+                    <SettingsSidebar onClose={() => setShowSettings(false)} />
+                </div>
+            )}  
+            </div> 
 
             {/* Sidebar */}
             <div className="sidebar">

@@ -1,0 +1,39 @@
+.message {
+  max-width: 70%;
+  padding: 8px 12px;
+  margin: 4px 0;
+  border-radius: 15px;
+  word-break: break-word;
+  position: relative;
+}
+
+.sent {
+  align-self: flex-end;
+  background-color: #dcf8c6;
+  text-align: right;
+}
+
+.received {
+  align-self: flex-start;
+  background-color: #f1f0f0;
+  text-align: left;
+}
+
+.deleted {
+  font-style: italic;
+  color: #888;
+  background-color: #f0f0f0;
+}
+
+/* Botón de eliminar */
+.message button {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  border: none;
+  background: transparent;
+  color: #888;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+}

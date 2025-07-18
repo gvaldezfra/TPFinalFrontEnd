@@ -6,34 +6,37 @@ export default function Register() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [repeatPassword, setRepeatPassword] = useState('');
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const handleRegister = (e) => {
         e.preventDefault();
 
         if (!name.trim() || !email.trim() || !password.trim()) {
-            alert('Todos los campos son obligatorios');
+            setError('Todos los campos son obligatorios');
             return;
         }
-
-        // Leer usuarios ya guardados
+        if (password !== repeatPassword) {
+            setError('Las contraseñas no coinciden');
+            return;
+        }
+        
         const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
 
-        // Verificar si el email ya existe
         const emailRepetido = existingUsers.find(user => user.email === email);
 
         if (emailRepetido) {
-            alert('Este email ya está registrado. Usá otro.');
+            setError('Este email ya está registrado. Usá otro.');
             return;
         }
 
-        // Agregar nuevo usuario
         const newUser = { name, email, password };
         const updatedUsers = [...existingUsers, newUser];
         localStorage.setItem('users', JSON.stringify(updatedUsers));
 
-        alert('Registro exitoso. Iniciá sesión.');
-        navigate('/login');
+        setError('');
+        navigate('/chat');
     };
 
     return (
@@ -65,9 +68,18 @@ export default function Register() {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                 />
+                <input
+                    className="input-login"
+                    type="password"
+                    placeholder="Repetir contraseña"
+                    value={repeatPassword}
+                    onChange={(e) => setRepeatPassword(e.target.value)}
+                    required
+                />
                 <button type="submit">Registrarse</button>
             </form>
-
+            {/* Error message */}
+            {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
             {/* Enlace para volver al login */}
             <p>
                 ¿Ya tenés cuenta?{' '}

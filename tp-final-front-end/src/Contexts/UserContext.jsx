@@ -1,7 +1,7 @@
+// src/Contexts/UserContext.jsx
 import { createContext, useContext, useState, useEffect } from 'react';
 
 const UserContext = createContext();
-
 export const useUser = () => useContext(UserContext);
 
 export function UserProvider({ children }) {
@@ -12,9 +12,13 @@ export function UserProvider({ children }) {
         if (savedUser) setUser(savedUser);
     }, []);
 
+    const saveUser = (newUser) => {
+        setUser(newUser);
+        localStorage.setItem('loggedUser', JSON.stringify(newUser));
+    };
+
     const login = (userData) => {
-        setUser(userData);
-        localStorage.setItem('loggedUser', JSON.stringify(userData));
+        saveUser({ ...userData, color: '#1976d2', blocked: [] }); // valores por defecto
     };
 
     const logout = () => {
@@ -22,8 +26,44 @@ export function UserProvider({ children }) {
         localStorage.removeItem('loggedUser');
     };
 
+    const updateName = (newName) => {
+        if (!user) return;
+        saveUser({ ...user, name: newName });
+    };
+
+    const updatePhoto = (newPhoto) => {
+        if (!user) return;
+        saveUser({ ...user, photo: newPhoto });
+    };
+
+    const updateColor = (newColor) => {
+        if (!user) return;
+        saveUser({ ...user, color: newColor });
+    };
+
+    const blockContact = (contactId) => {
+        if (!user) return;
+        const updatedBlocked = [...(user.blocked || []), contactId];
+        saveUser({ ...user, blocked: updatedBlocked });
+    };
+
+    const unblockContact = (contactId) => {
+        if (!user) return;
+        const updatedBlocked = (user.blocked || []).filter(id => id !== contactId);
+        saveUser({ ...user, blocked: updatedBlocked });
+    };
+
     return (
-        <UserContext.Provider value={{ user, login, logout }}>
+        <UserContext.Provider value={{
+            user,
+            login,
+            logout,
+            updateName,
+            updatePhoto,
+            updateColor,
+            blockContact,
+            unblockContact
+        }}>
             {children}
         </UserContext.Provider>
     );
