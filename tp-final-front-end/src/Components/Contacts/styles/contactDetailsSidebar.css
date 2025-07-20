@@ -1,0 +1,53 @@
+.contact-details-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 280px;
+  height: 100vh;
+  background-color: #fff;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+  padding: 20px;
+  z-index: 999;
+  overflow-y: auto;
+}
+
+.contact-details-sidebar .contact-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.contact-details-sidebar label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+.contact-details-sidebar input {
+  width: 100%;
+  padding: 6px;
+  margin-bottom: 10px;
+}
+
+.contact-details-sidebar button {
+  margin-top: 10px;
+  display: block;
+  width: 100%;
+  padding: 8px;
+  border: none;
+  background-color: #1976d2;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.contact-details-sidebar .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+}

@@ -1,0 +1,29 @@
+.new-contact-link {
+  display: block;
+  padding: 10px 15px;
+  color: #007bff;
+  cursor: pointer;
+  font-weight: 500;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s;
+}
+
+.new-contact-link:hover {
+  background-color: #f0f0f0;
+}
+
+.section-label {
+  font-weight: bold;
+  margin: 10px 0 5px;
+  padding-left: 15px;
+  color: #666;
+}
+
+.contacts-section {
+  overflow-y: auto;
+  padding: 0 5px 10px;
+}
+
+.new-contact-span {
+    cursor: pointer;
+}

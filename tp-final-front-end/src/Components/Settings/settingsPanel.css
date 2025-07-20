@@ -1,49 +1,49 @@
-/* src/Components/Settings/SettingsSidebar.css */
 .settings-sidebar {
-  position: fixed;
-  top: 0;
-  right: -300px;
-  width: 300px;
+  width: 100%; /* para que cubra todo el sidebar */
   height: 100%;
-  background: white;
-  box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+  background: rgb(165, 144, 144);
   padding: 20px;
-  transition: right 0.3s ease;
-  z-index: 1000;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.settings-sidebar.open {
-  right: 0;
-}
 
-.settings-sidebar h2, h3 {
+.settings-sidebar h2,
+.settings-sidebar h3 {
   margin-top: 0;
+}
+
+.settings-sidebar label {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
 }
 
 .settings-sidebar input[type="text"],
 .settings-sidebar input[type="color"] {
   width: 100%;
   padding: 6px;
-  margin-bottom: 10px;
-}
-
-.settings-sidebar .save-btn,
-.settings-sidebar .logout-btn {
-  margin-top: 10px;
-  width: 100%;
-  padding: 8px;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
+  margin-top: 4px;
+  border: 1px solid #ccc;
   border-radius: 4px;
 }
 
-.settings-sidebar .save-btn {
-  background-color: #4caf50;
+.settings-sidebar button {
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.settings-sidebar .logout {
+  background-color: #f44336;
   color: white;
 }
 
-.settings-sidebar .logout-btn {
-  background-color: #f44336;
+.settings-sidebar .close {
+  background-color: #aaa;
   color: white;
 }
