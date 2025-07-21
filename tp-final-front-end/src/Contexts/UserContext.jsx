@@ -1,3 +1,4 @@
+// src/Contexts/UserContext.jsx
 import { createContext, useContext, useState, useEffect } from 'react';
 
 export const UserContext = createContext();
@@ -22,6 +23,8 @@ export function UserProvider({ children }) {
       color: userData.color || '#1976d2',
       blocked: userData.blocked || [],
       favorites: userData.favorites || [],
+      pinned: userData.pinned || [],
+      archived: userData.archived || [],
     });
   };
 
@@ -57,6 +60,30 @@ export function UserProvider({ children }) {
     saveUser({ ...user, blocked: updatedBlocked });
   };
 
+  const pinChat = (contactId) => {
+    if (!user) return;
+    if (user.pinned?.includes(contactId)) return;
+    saveUser({ ...user, pinned: [...(user.pinned || []), contactId] });
+  };
+
+  const unpinChat = (contactId) => {
+    if (!user) return;
+    const updatedPinned = (user.pinned || []).filter(id => id !== contactId);
+    saveUser({ ...user, pinned: updatedPinned });
+  };
+
+  const archiveChat = (contactId) => {
+    if (!user) return;
+    if (user.archived?.includes(contactId)) return;
+    saveUser({ ...user, archived: [...(user.archived || []), contactId] });
+  };
+
+  const unarchiveChat = (contactId) => {
+    if (!user) return;
+    const updatedArchived = (user.archived || []).filter(id => id !== contactId);
+    saveUser({ ...user, archived: updatedArchived });
+  };
+
   return (
     <UserContext.Provider value={{
       user,
@@ -66,7 +93,11 @@ export function UserProvider({ children }) {
       updatePhoto,
       updateColor,
       blockContact,
-      unblockContact
+      unblockContact,
+      pinChat,
+      unpinChat,
+      archiveChat,
+      unarchiveChat,
     }}>
       {children}
     </UserContext.Provider>

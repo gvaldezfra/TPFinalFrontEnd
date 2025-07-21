@@ -1,4 +1,5 @@
-import React, { useContext, useState, useMemo } from 'react';
+// src/Screens/ChatsScreen.jsx
+import React, { useContext, useState, useMemo, useEffect } from 'react';
 import { MessageContext } from '../Contexts/MessageContext.jsx';
 import { UserContext } from '../Contexts/UserContext.jsx';
 
@@ -7,10 +8,12 @@ import ContactDetailsSidebar from '../Components/Contacts/ContactDetailsSidebar.
 import Chat from '../Components/Chat/Chat.jsx';
 import SettingsSidebar from '../Components/Settings/SettingsPanel.jsx';
 import NewChatPanel from '../Components/Chat/NewChatPanel.jsx';
+import ContextMenu from '../Components/Contacts/ContextMenu.jsx';
+
 import './styles/ChatScreen.css';
 
 export default function ChatScreen() {
-  const { messagesByContact, sendMessage } = useContext(MessageContext);
+  const { messagesByContact, sendMessage, clearMessages } = useContext(MessageContext);
   const { user } = useContext(UserContext);
 
   const [contacts, setContacts] = useState([
@@ -20,6 +23,9 @@ export default function ChatScreen() {
 
   const [activeContactId, setActiveContactId] = useState(contacts[0]?.id || null);
   const [showSettings, setShowSettings] = useState(false);
+  const [showContactDetail, setShowContactDetail] = useState(false);
+  const [showNewChatPanel, setShowNewChatPanel] = useState(false);
+  const [contextMenu, setContextMenu] = useState(null); // { x, y, contact }
 
   const contactsWithLastMessage = useMemo(() => {
     if (!user) return contacts.map(contact => ({
@@ -43,8 +49,51 @@ export default function ChatScreen() {
 
   const messages = messagesByContact[activeContactId] || [];
   const activeContact = contactsWithLastMessage.find(c => c.id === activeContactId);
-  const [showContactDetail, setShowContactDetail] = React.useState(false);
-  const [showNewChatPanel, setShowNewChatPanel] = useState(false);
+
+  const handleContextMenu = (e, contact) => {
+    e.preventDefault();
+    setContextMenu({
+      x: e.pageX,
+      y: e.pageY,
+      contact
+    });
+  };
+
+  const handleContextMenuAction = (action) => {
+    const contact = contextMenu?.contact;
+    if (!contact) return;
+
+    switch (action) {
+      case 'Fijar chat':
+        setContacts(prev =>
+          [contact, ...prev.filter(c => c.id !== contact.id)]
+        );
+        break;
+      case 'Vaciar chat':
+        clearMessages(contact.id);
+        break;
+      case 'Eliminar':
+        setContacts(prev => prev.filter(c => c.id !== contact.id));
+        break;
+      case 'Archivar':
+        setContacts(prev =>
+          prev.map(c =>
+            c.id === contact.id ? { ...c, archived: true } : c
+          )
+        );
+        break;
+      default:
+        break;
+    }
+
+    setContextMenu(null);
+  };
+
+  useEffect(() => {
+    const closeMenu = () => setContextMenu(null);
+    document.addEventListener('click', closeMenu);
+    return () => document.removeEventListener('click', closeMenu);
+  }, []);
 
   return (
     <div className="chat-screen">
@@ -56,58 +105,60 @@ export default function ChatScreen() {
       </div>
 
       {/* Sidebar */}
-    <div className="sidebar">
+      <div className="sidebar">
         {showSettings ? (
-            <SettingsSidebar onClose={() => setShowSettings(false)} />
+          <SettingsSidebar onClose={() => setShowSettings(false)} />
         ) : showNewChatPanel ? (
-            <NewChatPanel
-                visible={true}
-                contacts={contactsWithLastMessage}
-                activeContactId={activeContactId}
-                onSelect={setActiveContactId}
-                onAddContact={(newContact) => {
-                    setContacts(prev => [
-                        ...prev,
-                        {
-                            ...newContact,
-                            id: Date.now().toString(),
-                            photo: 'https://i.pravatar.cc/150'
-                        }
-                    ]);
-                    setShowNewChatPanel(false); // opcional: cerrarlo al agregar
-                }}
-                onClose={() => setShowNewChatPanel(false)} // si lo usás
-            />
+          <NewChatPanel
+            visible={true}
+            contacts={contactsWithLastMessage}
+            activeContactId={activeContactId}
+            onSelect={setActiveContactId}
+            onAddContact={(newContact) => {
+              setContacts(prev => [
+                ...prev,
+                {
+                  ...newContact,
+                  id: Date.now().toString(),
+                  photo: 'https://i.pravatar.cc/150'
+                }
+              ]);
+              setShowNewChatPanel(false);
+            }}
+            onClose={() => setShowNewChatPanel(false)}
+          />
         ) : (
-            <>
-                <div className="sidebar-header">
-                    <span className="logo">ChatApp</span>
-                    <button
-                        className="add-contact"
-                        onClick={() => setShowNewChatPanel(true)}
-                    >
-                        ➕
-                    </button>
-                </div>
+          <>
+            <div className="sidebar-header">
+              <span className="logo">ChatApp</span>
+              <button
+                className="new-chat-button"
+                onClick={() => setShowNewChatPanel(true)}
+              >
+                ➕
+              </button>
+            </div>
 
-                <ContactsList
-                    contacts={contactsWithLastMessage}
-                    activeContactId={activeContactId}
-                    onSelect={setActiveContactId}
-                />
-            </>
+            <ContactsList
+              contacts={contactsWithLastMessage}
+              activeContactId={activeContactId}
+              onSelect={setActiveContactId}
+              onContextMenu={handleContextMenu}
+            />
+          </>
         )}
-    </div>
+      </div>
+
       {/* Chat Panel */}
       <div className="chat-panel">
         <div className="chat-header">
-            <img src={activeContact?.photo} alt={activeContact?.name || ''} />
-            <span
-                style={{ cursor: 'pointer' }}
-                onClick={() => setShowContactDetail(true)}
-            >
-                {activeContact?.name || 'Sin contacto activo'}
-            </span>
+          <img src={activeContact?.photo} alt={activeContact?.name || ''} />
+          <span
+            style={{ cursor: 'pointer' }}
+            onClick={() => setShowContactDetail(true)}
+          >
+            {activeContact?.name || 'Sin contacto activo'}
+          </span>
         </div>
 
         <Chat
@@ -116,13 +167,23 @@ export default function ChatScreen() {
           onSendMessage={(text) => sendMessage(activeContactId, text)}
         />
       </div>
-    {/* Contact Details*/}
-    {showContactDetail && (
-        <ContactDetailsSidebar
+
+      {/* Contact Details */}
+      {showContactDetail && (
+        <div className="contact-details-sidebar">
+          <ContactDetailsSidebar
             contact={activeContact}
             onClose={() => setShowContactDetail(false)}
-        />
-    )}
+          />
+        </div>
+      )}
+
+      {/* Context Menu */}
+      <ContextMenu
+        position={contextMenu}
+        onClose={() => setContextMenu(null)}
+        onAction={handleContextMenuAction}
+      />
     </div>
   );
 }

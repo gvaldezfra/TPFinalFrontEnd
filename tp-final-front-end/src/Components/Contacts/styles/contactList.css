@@ -5,3 +5,23 @@
         overflow-y: 'auto';
         height: 100%;
     }
+
+.context-menu {
+  position: fixed;
+  background: white;
+  border: 1px solid #ccc;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 6px 0;
+  border-radius: 6px;
+  width: 160px;
+}
+
+.context-menu div {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.context-menu div:hover {
+  background-color: #f0f0f0;
+}
