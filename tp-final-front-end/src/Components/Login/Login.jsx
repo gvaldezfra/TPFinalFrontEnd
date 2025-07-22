@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useUser } from '../../Contexts/UserContext.jsx';
-import './login.css';
+import './Login.css';
 
 export default function Login() {
     const [email, setEmail] = useState('');
