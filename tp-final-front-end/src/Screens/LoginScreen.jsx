@@ -1,5 +1,5 @@
 import React from "react";
-import './styles/LoginScreen.css';
+import './styles/loginScreen.css';
 
 export default function LoginScreen() {
   return (

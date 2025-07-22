@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { MessageContext } from '../../Contexts/MessageContext.jsx';
-import './styles/Message.css';
+import './styles/message.css';
 
 export default function Message({ message, isOwn, contactId }) {
   const { deleteMessage } = useContext(MessageContext);

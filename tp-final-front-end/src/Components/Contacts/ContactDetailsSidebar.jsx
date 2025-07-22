@@ -1,5 +1,6 @@
 import React from 'react';
 import { useUser } from '../../Contexts/UserContext.jsx';
+import './styles/contactDetailsSidebar.css';
 
 export default function ContactDetailsSidebar({ contact, onClose }) {
   const { user, login, blockContact, unblockContact } = useUser();

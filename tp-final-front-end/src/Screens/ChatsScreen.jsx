@@ -10,7 +10,7 @@ import SettingsSidebar from '../Components/Settings/SettingsPanel.jsx';
 import NewChatPanel from '../Components/Chat/NewChatPanel.jsx';
 import EditProfile from '../Components/Settings/EditProfile.jsx';
 
-import './styles/ChatScreen.css';
+import './styles/chatScreen.css';
 
 export default function ChatScreen() {
   const { messagesByContact, sendMessage, clearMessages } = useContext(MessageContext);

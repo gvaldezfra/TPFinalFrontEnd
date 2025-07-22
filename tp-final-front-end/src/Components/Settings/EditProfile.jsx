@@ -1,7 +1,7 @@
 // src/Components/Settings/EditProfile.jsx
 import React, { useState, useEffect } from 'react';
 import { useUser } from '../../Contexts/UserContext.jsx';
-import './EditProfile.css';
+import './editProfile.css';
 import defaultAvatar from '../../assets/avatargris.png';
 
 export default function EditProfile({ onClose }) {

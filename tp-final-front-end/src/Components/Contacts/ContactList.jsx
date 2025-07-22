@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ContactItem from './ContactItem.jsx';
-import './styles/ContactList.css';
+import './styles/contactList.css';
 
 export default function ContactsList({ contacts, activeContactId, onSelect }) {
   const [contextMenu, setContextMenu] = useState(null); // { x, y, contact }

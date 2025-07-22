@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ContactsList from '../Contacts/ContactList.jsx';
 import AddContactForm from '../Contacts/AddContactForm.jsx';
+import './styles/newChatPanel.css';
 
 export default function NewChatPanel({ visible,contacts, onSelect, activeContactId, onAddContact, onClose }) {
   if (!visible) return null;

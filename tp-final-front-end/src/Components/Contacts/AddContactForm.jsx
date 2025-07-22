@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './styles/AddContactForm.css';
+import './styles/addContactForm.css';
 
 export default function AddContactForm({ onAdd, onCancel }) {
     const [name, setName] = useState('');

@@ -1,5 +1,5 @@
 import React from 'react';
-import './styles/ContactItem.css';
+import './styles/contactItem.css';
 import { useState } from 'react';
 
 
