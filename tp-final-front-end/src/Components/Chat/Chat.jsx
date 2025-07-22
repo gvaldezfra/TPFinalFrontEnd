@@ -1,7 +1,7 @@
 import React from 'react';
 import Message from './Message.jsx';
 import NewMessageForm from './NewMessageForm.jsx';
-import './styles/Chat.css';
+import './styles/chat.css';
 
 export default function Chat({ contact, messages, onSendMessage }) {
   if (!contact) {
