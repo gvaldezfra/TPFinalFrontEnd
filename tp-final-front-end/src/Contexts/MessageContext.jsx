@@ -1,6 +1,6 @@
 // src/Contexts/MessageContext.jsx
 import React, { createContext, useState, useEffect } from 'react';
-import fakeChats from '../mocks/fakeChats.json';
+import fakeChats from '../Mocks/fakeChats.json';
 
 export const MessageContext = createContext();
 
