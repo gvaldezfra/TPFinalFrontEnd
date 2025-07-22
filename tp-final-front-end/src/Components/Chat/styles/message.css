@@ -5,16 +5,18 @@
     max-width: 70%;
     word-break: break-word;
     position: relative;
-    color: #000;
+    color: var(--text-color);
+    text-decoration: solid;
+    font-weight: 450;
 }
 
 .message.own {
-    background-color: #738cdf;
+    background-color: var(--own-msg);
     width: fit-content;
 }
 
 .message.theirs {
-    background-color: #c9d3f3;
+    background-color: var(--their-msg);
     width: fit-content;
 
 }

@@ -25,7 +25,11 @@ export default function ContactsList({ contacts, activeContactId, onSelect }) {
       setContextMenu(null);
     }
   };
-
+  const handleContactAction = (e, contact) => {
+    e.preventDefault();
+    handleContextMenu(e, contact);
+  }
+  
   useEffect(() => {
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
@@ -39,7 +43,7 @@ export default function ContactsList({ contacts, activeContactId, onSelect }) {
           contact={contact}
           isActive={contact.id === activeContactId}
           onClick={() => onSelect(contact.id)}
-          onContextMenu={handleContextMenu}
+          onAction={handleContactAction}
         />
       ))}
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -10,6 +10,7 @@ import MessageProvider from './Contexts/MessageContext.jsx';
 import ChatScreen from './Screens/ChatsScreen.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
+  <StrictMode>
   <UserProvider>
     <MessageProvider> {/* ✅ esto también */}
       <BrowserRouter>
@@ -22,4 +23,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       </BrowserRouter>
     </MessageProvider>
   </UserProvider>
+  </StrictMode>
 );

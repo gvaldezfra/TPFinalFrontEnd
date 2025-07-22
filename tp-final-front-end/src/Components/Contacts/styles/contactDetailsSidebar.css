@@ -7,7 +7,6 @@
   background-color: #fff;
   box-shadow: -2px 0 5px rgba(0,0,0,0.2);
   padding: 20px;
-  z-index: 5000;
   overflow-y: auto;
   transition: transform 0.3s ease-in-out;
   transform: translateX(0);

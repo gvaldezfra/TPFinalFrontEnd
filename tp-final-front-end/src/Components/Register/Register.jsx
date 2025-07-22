@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { useUser } from '../../Contexts/UserContext.jsx'; 
 
 export default function Register() {
     const [name, setName] = useState('');
@@ -9,6 +10,7 @@ export default function Register() {
     const [repeatPassword, setRepeatPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const { login } = useUser(); 
 
     const handleRegister = (e) => {
         e.preventDefault();
@@ -21,9 +23,8 @@ export default function Register() {
             setError('Las contraseñas no coinciden');
             return;
         }
-        
-        const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
 
+        const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
         const emailRepetido = existingUsers.find(user => user.email === email);
 
         if (emailRepetido) {
@@ -31,10 +32,22 @@ export default function Register() {
             return;
         }
 
-        const newUser = { name, email, password };
+        const newUser = {
+            name,
+            email,
+            password,
+            photo: '',           
+            color: '#1976d2',    
+            favorites: [],
+            blocked: [],
+            pinned: [],
+            archived: [],
+        };
+
         const updatedUsers = [...existingUsers, newUser];
         localStorage.setItem('users', JSON.stringify(updatedUsers));
 
+        login(newUser); 
         setError('');
         navigate('/chat');
     };
@@ -43,54 +56,21 @@ export default function Register() {
         <div>
             <h1>Registrate</h1>
             <form onSubmit={handleRegister}>
-                {/* Inputs */}
-                <input
-                    className="input-login"
-                    type="text"
-                    placeholder="Nombre"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                />
-                <input
-                    className="input-login"
-                    type="email"
-                    placeholder="Correo"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
-                <input
-                    className="input-login"
-                    type="password"
-                    placeholder="Contraseña"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-                <input
-                    className="input-login"
-                    type="password"
-                    placeholder="Repetir contraseña"
-                    value={repeatPassword}
-                    onChange={(e) => setRepeatPassword(e.target.value)}
-                    required
-                />
+                <input className="input-login" type="text" placeholder="Nombre" value={name} onChange={(e) => setName(e.target.value)} required />
+                <input className="input-login" type="email" placeholder="Correo" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                <input className="input-login" type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                <input className="input-login" type="password" placeholder="Repetir contraseña" value={repeatPassword} onChange={(e) => setRepeatPassword(e.target.value)} required />
                 <button type="submit">Registrarse</button>
             </form>
-            {/* Error message */}
+
             {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
-            {/* Enlace para volver al login */}
             <p>
                 ¿Ya tenés cuenta?{' '}
                 <Link to="/login" style={{ color: 'blue', textDecoration: 'underline' }}>
                     Iniciá sesión acá
                 </Link>
             </p>
-            <Link to="/">
-                <button>Volver al inicio</button>
-            </Link>
+            <Link to="/"><button>Volver al inicio</button></Link>
         </div>
     );
 }
-

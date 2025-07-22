@@ -18,3 +18,12 @@
     justify-content: flex-start;
     width: 100%;
 }
+
+.chat-background {
+    background-color: var(--chat-bg);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 20px;
+    overflow-y: auto;
+}

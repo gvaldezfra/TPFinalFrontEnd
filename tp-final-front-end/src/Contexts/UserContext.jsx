@@ -1,20 +1,54 @@
 // src/Contexts/UserContext.jsx
 import { createContext, useContext, useState, useEffect } from 'react';
+import THEMES from '../Themes/themes.js';
 
 export const UserContext = createContext();
 export const useUser = () => useContext(UserContext);
 
+function applyTheme(theme) {
+  Object.entries(theme).forEach(([key, value]) => {
+    document.documentElement.style.setProperty(key, value);
+  });
+}
+
 export function UserProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [theme, setTheme] = useState(THEMES.default);
+  const [contacts, setContacts] = useState([]);
 
   useEffect(() => {
     const savedUser = JSON.parse(localStorage.getItem('loggedUser'));
+    const savedContacts = JSON.parse(localStorage.getItem('contacts')) || [];
+    const savedThemeKey = localStorage.getItem('selectedTheme') || 'default';
+
     if (savedUser) setUser(savedUser);
+    if (savedContacts.length) setContacts(savedContacts);
+    if (THEMES[savedThemeKey]) {
+      setTheme(THEMES[savedThemeKey]);
+      applyTheme(THEMES[savedThemeKey]);
+    } else {
+      applyTheme(THEMES.default);
+    }
   }, []);
 
   const saveUser = (newUser) => {
     setUser(newUser);
     localStorage.setItem('loggedUser', JSON.stringify(newUser));
+  };
+
+  const saveContacts = (newContacts) => {
+    setContacts(newContacts);
+    localStorage.setItem('contacts', JSON.stringify(newContacts));
+  };
+
+  const addContact = (contact) => {
+    const newContacts = [...contacts, contact];
+    saveContacts(newContacts);
+  };
+
+  const removeContact = (contactId) => {
+    const newContacts = contacts.filter(c => c.id !== contactId);
+    saveContacts(newContacts);
   };
 
   const login = (userData) => {
@@ -24,7 +58,6 @@ export function UserProvider({ children }) {
       blocked: userData.blocked || [],
       favorites: userData.favorites || [],
       pinned: userData.pinned || [],
-      archived: userData.archived || [],
     });
   };
 
@@ -72,16 +105,12 @@ export function UserProvider({ children }) {
     saveUser({ ...user, pinned: updatedPinned });
   };
 
-  const archiveChat = (contactId) => {
-    if (!user) return;
-    if (user.archived?.includes(contactId)) return;
-    saveUser({ ...user, archived: [...(user.archived || []), contactId] });
-  };
-
-  const unarchiveChat = (contactId) => {
-    if (!user) return;
-    const updatedArchived = (user.archived || []).filter(id => id !== contactId);
-    saveUser({ ...user, archived: updatedArchived });
+  const changeTheme = (themeKey) => {
+    if (THEMES[themeKey]) {
+      setTheme(THEMES[themeKey]);
+      applyTheme(THEMES[themeKey]);
+      localStorage.setItem('selectedTheme', themeKey);
+    }
   };
 
   return (
@@ -96,8 +125,11 @@ export function UserProvider({ children }) {
       unblockContact,
       pinChat,
       unpinChat,
-      archiveChat,
-      unarchiveChat,
+      theme,
+      changeTheme,
+      contacts,
+      addContact,
+      removeContact,
     }}>
       {children}
     </UserContext.Provider>

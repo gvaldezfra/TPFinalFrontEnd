@@ -61,3 +61,35 @@
     white-space: nowrap;
     flex-shrink: 0;
 }
+ .contact-options {
+  position: relative;
+}
+
+.options-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.options-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  border-radius: 6px;
+  padding: 4px 0;
+  z-index: 999;
+  width: 160px;
+}
+
+.options-menu > div {
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+.options-menu > div:hover {
+  background-color: #eee;
+}

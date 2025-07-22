@@ -9,11 +9,12 @@ export default function Chat({ contact, messages, onSendMessage }) {
   }
 
   return (
-    <div style={{ width: '100%', flex: 1, display: 'flex', flexDirection: 'column', padding: 20 }}>
+    <div className= 'chat-container' style={{ width: '100%', flex: 1, display: 'flex', flexDirection: 'column', padding: 20 }}>
       <div style={{ marginBottom: 10, fontWeight: 'bold' }}>{contact.name}</div>
 
       <div
         style={{
+          backgroundColor: 'var(--chat-bg)',
           width: '100%',
           flex: 1,
           overflowY: 'auto',

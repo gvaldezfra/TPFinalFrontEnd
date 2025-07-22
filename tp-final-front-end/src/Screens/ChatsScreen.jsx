@@ -1,155 +1,200 @@
 // src/Screens/ChatsScreen.jsx
 import React, { useContext, useState, useMemo, useEffect } from 'react';
 import { MessageContext } from '../Contexts/MessageContext.jsx';
-import { UserContext } from '../Contexts/UserContext.jsx';
+import { useUser } from '../Contexts/UserContext.jsx';
 
 import ContactsList from '../Components/Contacts/ContactList.jsx';
 import ContactDetailsSidebar from '../Components/Contacts/ContactDetailsSidebar.jsx';
 import Chat from '../Components/Chat/Chat.jsx';
 import SettingsSidebar from '../Components/Settings/SettingsPanel.jsx';
 import NewChatPanel from '../Components/Chat/NewChatPanel.jsx';
-import ContextMenu from '../Components/Contacts/ContextMenu.jsx';
+import EditProfile from '../Components/Settings/EditProfile.jsx';
 
 import './styles/ChatScreen.css';
 
 export default function ChatScreen() {
   const { messagesByContact, sendMessage, clearMessages } = useContext(MessageContext);
-  const { user } = useContext(UserContext);
+  const {
+    user,
+    pinChat,
+    unpinChat,
+    addContact,
+  } = useUser();
 
   const [contacts, setContacts] = useState([
     { id: '1', name: 'Ana', photo: 'https://i.pravatar.cc/150?img=1' },
     { id: '2', name: 'Juan', photo: 'https://i.pravatar.cc/150?img=2' },
   ]);
 
-  const [activeContactId, setActiveContactId] = useState(contacts[0]?.id || null);
+  const [activeContactId, setActiveContactId] = useState(null);
   const [showSettings, setShowSettings] = useState(false);
   const [showContactDetail, setShowContactDetail] = useState(false);
   const [showNewChatPanel, setShowNewChatPanel] = useState(false);
-  const [contextMenu, setContextMenu] = useState(null); // { x, y, contact }
+  const [showEditProfile, setShowEditProfile] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortOption, setSortOption] = useState('recientes');
+
+  useEffect(() => {
+    if (contacts.length && !activeContactId) {
+      setActiveContactId(contacts[0].id);
+    }
+  }, [contacts, activeContactId]);
 
   const contactsWithLastMessage = useMemo(() => {
-    if (!user) return contacts.map(contact => ({
-      ...contact,
-      lastMessage: undefined,
-      lastMessageTime: undefined,
-      isFavorite: false,
-    }));
+    if (!user) return contacts;
 
-    return contacts.map(contact => {
+    const enriched = contacts.map(contact => {
       const messages = messagesByContact[contact.id] || [];
       const lastMsg = messages[messages.length - 1];
+
       return {
         ...contact,
         lastMessage: lastMsg?.text,
         lastMessageTime: lastMsg?.timestamp,
         isFavorite: user.favorites?.includes(contact.id) ?? false,
+        isPinned: user.pinned?.includes(contact.id) ?? false,
       };
     });
-  }, [contacts, messagesByContact, user]);
+
+    let filtered = enriched;
+
+    if (searchTerm.trim()) {
+      const term = searchTerm.toLowerCase();
+      filtered = filtered.filter(c =>
+        c.name.toLowerCase().includes(term)
+      );
+    }
+
+    if (sortOption === 'alfabetico') {
+      filtered.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sortOption === 'recientes') {
+      filtered.sort((a, b) => (b.lastMessageTime || 0) - (a.lastMessageTime || 0));
+    }
+
+    const pinned = filtered.filter(c => c.isPinned);
+    const others = filtered.filter(c => !c.isPinned);
+
+    return [...pinned, ...others];
+  }, [contacts, messagesByContact, user, searchTerm, sortOption]);
 
   const messages = messagesByContact[activeContactId] || [];
-  const activeContact = contactsWithLastMessage.find(c => c.id === activeContactId);
+  const activeContactFull = contacts.find(c => c.id === activeContactId);
+  const activeContact = contactsWithLastMessage.find(c => c.id === activeContactId) || activeContactFull;
 
-  const handleContextMenu = (e, contact) => {
-    e.preventDefault();
-    setContextMenu({
-      x: e.pageX,
-      y: e.pageY,
-      contact
+  const { theme } = useUser();
+
+  useEffect(() => {
+    if (!theme) return;
+    const root = document.documentElement;
+    Object.entries(theme).forEach(([key, value]) => {
+      root.style.setProperty(key, value);
     });
-  };
+  }, [theme]);
 
-  const handleContextMenuAction = (action) => {
-    const contact = contextMenu?.contact;
-    if (!contact) return;
+  // useEffect(() => {
+  //   const activeStillVisible = contactsWithLastMessage.some(c => c.id === activeContactId);
+  //   if (!activeStillVisible) {
+  //     const nextContact = contactsWithLastMessage.find(c => c.id !== activeContactId);
+  //     setActiveContactId(nextContact ? nextContact.id : null);
+  //   }
+  // }, [contactsWithLastMessage, activeContactId]);
 
+  const handleContactAction = (action, contact) => {
     switch (action) {
-      case 'Fijar chat':
-        setContacts(prev =>
-          [contact, ...prev.filter(c => c.id !== contact.id)]
-        );
+      case 'Fijar':
+        setContacts(prev => [contact, ...prev.filter(c => c.id !== contact.id)]);
         break;
-      case 'Vaciar chat':
+      case 'Vaciar':
         clearMessages(contact.id);
         break;
       case 'Eliminar':
         setContacts(prev => prev.filter(c => c.id !== contact.id));
         break;
-      case 'Archivar':
-        setContacts(prev =>
-          prev.map(c =>
-            c.id === contact.id ? { ...c, archived: true } : c
-          )
-        );
-        break;
       default:
         break;
     }
-
-    setContextMenu(null);
   };
-
-  useEffect(() => {
-    const closeMenu = () => setContextMenu(null);
-    document.addEventListener('click', closeMenu);
-    return () => document.removeEventListener('click', closeMenu);
-  }, []);
 
   return (
     <div className="chat-screen">
-      {/* Navbar */}
       <div className="navbar">
-        <button className="search-button">🔍</button>
-        <button className="profile-button">👤</button>
-        <button className="settings-button" onClick={() => setShowSettings(true)}>⚙️</button>
+        <button className="profile-button" onClick={() => {
+          setShowEditProfile(true);
+          setShowSettings(false);
+          setShowNewChatPanel(false);
+        }}>👤</button>
+        <button className="settings-button" onClick={() => {
+          setShowSettings(true);
+          setShowEditProfile(false);
+          setShowNewChatPanel(false);
+        }}>⚙️</button>
       </div>
 
-      {/* Sidebar */}
       <div className="sidebar">
-        {showSettings ? (
+        {showSettings && (
           <SettingsSidebar onClose={() => setShowSettings(false)} />
-        ) : showNewChatPanel ? (
+        )}
+
+        {showEditProfile && (
+          <EditProfile onClose={() => setShowEditProfile(false)} />
+        )}
+
+        {showNewChatPanel && (
           <NewChatPanel
             visible={true}
             contacts={contactsWithLastMessage}
             activeContactId={activeContactId}
             onSelect={setActiveContactId}
             onAddContact={(newContact) => {
-              setContacts(prev => [
-                ...prev,
-                {
-                  ...newContact,
-                  id: Date.now().toString(),
-                  photo: 'https://i.pravatar.cc/150'
-                }
-              ]);
+              addContact({
+                ...newContact,
+                id: Date.now().toString(),
+                photo: 'https://i.pravatar.cc/150'
+              });
               setShowNewChatPanel(false);
             }}
             onClose={() => setShowNewChatPanel(false)}
           />
-        ) : (
+        )}
+
+        {!showSettings && !showEditProfile && !showNewChatPanel && (
           <>
             <div className="sidebar-header">
               <span className="logo">ChatApp</span>
               <button
                 className="new-chat-button"
-                onClick={() => setShowNewChatPanel(true)}
+                onClick={() => {
+                  setShowNewChatPanel(true);
+                  setShowEditProfile(false);
+                  setShowSettings(false);
+                }}
               >
                 ➕
               </button>
             </div>
-
+            <div className="chat-toolbar">
+              <input
+                type="text"
+                placeholder="buscar chats o iniciar nuevo"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="chat-search-input"
+              />
+              <div className="chat-toolbar-buttons">
+                <button onClick={() => setSortOption('recientes')}>recientes</button>
+                <button onClick={() => setSortOption('alfabetico')}>a - z</button>
+              </div>
+            </div>
             <ContactsList
               contacts={contactsWithLastMessage}
               activeContactId={activeContactId}
               onSelect={setActiveContactId}
-              onContextMenu={handleContextMenu}
+              onAction={handleContactAction}
             />
           </>
         )}
       </div>
 
-      {/* Chat Panel */}
       <div className="chat-panel">
         <div className="chat-header">
           <img src={activeContact?.photo} alt={activeContact?.name || ''} />
@@ -168,7 +213,6 @@ export default function ChatScreen() {
         />
       </div>
 
-      {/* Contact Details */}
       {showContactDetail && (
         <div className="contact-details-sidebar">
           <ContactDetailsSidebar
@@ -177,13 +221,6 @@ export default function ChatScreen() {
           />
         </div>
       )}
-
-      {/* Context Menu */}
-      <ContextMenu
-        position={contextMenu}
-        onClose={() => setContextMenu(null)}
-        onAction={handleContextMenuAction}
-      />
     </div>
   );
 }
