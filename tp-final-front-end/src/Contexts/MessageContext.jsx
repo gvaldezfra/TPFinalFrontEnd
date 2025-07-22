@@ -45,12 +45,19 @@ export default function MessageProvider({ children }) {
 
   // Marcar mensaje como eliminado (sin borrarlo)
   const deleteMessage = (contactId, messageId) => {
-    setMessagesByContact(prev => ({
-      ...prev,
-      [contactId]: (prev[contactId] || []).map(msg =>
+    console.log('deleteMessage called:', contactId, messageId);
+
+    setMessagesByContact(prev => {
+      const updatedMessages = (prev[contactId] || []).map(msg =>
         msg.id === messageId ? { ...msg, deleted: true } : msg
-      ),
-    }));
+      );
+      console.log('updatedMessages:', updatedMessages);
+
+      return {
+        ...prev,
+        [contactId]: updatedMessages,
+      };
+    });
   };
 
   // Borrar todos los mensajes de un contacto

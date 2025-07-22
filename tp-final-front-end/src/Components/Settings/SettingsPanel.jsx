@@ -1,26 +1,15 @@
 import React from 'react';
 import { useUser } from '../../Contexts/UserContext.jsx';
 import THEMES from '../../Themes/themes.js';
-import './settingsPanel.css';
+import './SettingsPanel.css';
 
 export default function SettingsSidebar({ onClose }) {
-  const { updateColor, logout } = useUser();
+  const { updateColor, logout, user } = useUser();
 
   const handleThemeChange = (themeKey) => {
-    const theme = THEMES[themeKey];
-    if (!theme) return;
+    if (!THEMES[themeKey]) return;
 
-    // Guardar el nombre del tema en localStorage
-    localStorage.setItem('selectedTheme', themeKey);
-
-    // Aplicar el color principal al usuario
-    updateColor(theme['--chat-header']);
-
-    // Aplicar todas las variables CSS del tema
-    const root = document.documentElement;
-    Object.entries(theme).forEach(([key, value]) => {
-      root.style.setProperty(key, value);
-    });
+    updateColor(themeKey);
   };
 
   const handleLogout = () => {
@@ -41,6 +30,7 @@ export default function SettingsSidebar({ onClose }) {
             style={{
               backgroundColor: theme['--chat-header'],
               color: theme['--text-color'],
+              border: user?.color === key ? '2px solid black' : 'none',
             }}
             title={key}
           >

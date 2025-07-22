@@ -11,6 +11,16 @@ export default function EditProfile({ onClose }) {
   const [photoPreview, setPhotoPreview] = useState(user?.photo || defaultAvatar);
   const [photoFile, setPhotoFile] = useState(null);
 
+  // sincroniza si cambia el nombre desde otro lado
+  useEffect(() => {
+    setName(user?.name || '');
+  }, [user?.name]);
+
+  // sincroniza si cambia la foto desde otro lado
+  useEffect(() => {
+    setPhotoPreview(user?.photo || defaultAvatar);
+  }, [user?.photo]);
+
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -25,12 +35,16 @@ export default function EditProfile({ onClose }) {
   };
 
   const handleSave = () => {
-    if (name.trim() !== '') {
-      updateName(name.trim());
+    const trimmedName = name.trim();
+
+    if (trimmedName && trimmedName !== user.name) {
+      updateName(trimmedName);
     }
+
     if (photoPreview && photoPreview !== user.photo) {
       updatePhoto(photoPreview);
     }
+
     onClose();
   };
 

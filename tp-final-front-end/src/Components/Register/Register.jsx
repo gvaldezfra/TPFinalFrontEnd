@@ -37,7 +37,7 @@ export default function Register() {
             email,
             password,
             photo: '',           
-            color: '#1976d2',    
+            color: 'default',
             favorites: [],
             blocked: [],
             pinned: [],

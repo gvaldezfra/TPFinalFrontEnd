@@ -27,3 +27,29 @@
     padding: 20px;
     overflow-y: auto;
 }
+
+.chat-container {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px;
+}
+
+.chat-container > div:first-child {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.messages-wrapper {
+  width: 100%;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+
+

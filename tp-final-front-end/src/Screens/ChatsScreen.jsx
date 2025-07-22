@@ -13,7 +13,7 @@ import EditProfile from '../Components/Settings/EditProfile.jsx';
 import './styles/chatScreen.css';
 
 export default function ChatScreen() {
-  const { messagesByContact, sendMessage, clearMessages } = useContext(MessageContext);
+  const { messagesByContact, sendMessage, clearMessages, deleteMessage } = useContext(MessageContext);
   const {
     user,
     pinChat,
@@ -207,9 +207,10 @@ export default function ChatScreen() {
         </div>
 
         <Chat
-          contact={activeContactId}
+          contact={activeContactFull}
           messages={messages}
           onSendMessage={(text) => sendMessage(activeContactId, text)}
+          onDeleteMessage={deleteMessage}
         />
       </div>
 

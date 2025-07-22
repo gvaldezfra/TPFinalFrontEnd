@@ -1,13 +1,10 @@
-import React, { useContext } from 'react';
-import { MessageContext } from '../../Contexts/MessageContext.jsx';
+import React from 'react';
 import './styles/message.css';
 
-export default function Message({ message, isOwn, contactId }) {
-  const { deleteMessage } = useContext(MessageContext);
-
+export default function Message({ message, isOwn, onDelete }) {
   const handleDelete = () => {
     if (window.confirm('¿Querés eliminar este mensaje?')) {
-      deleteMessage(contactId, message.id);
+      onDelete(message.id);
     }
   };
 
