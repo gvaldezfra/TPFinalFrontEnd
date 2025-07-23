@@ -1,21 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './index.css';
-import THEMES from './Themes/themes.js';
-import { useEffect } from 'react';
+import { useUser } from './Contexts/UserContext.jsx';
+import HomeScreen from './Screens/HomeScreen.jsx';
 
 export default function App() {
+  const { user, theme, loading } = useUser();
+
   useEffect(() => {
-    const theme = THEMES.default;
+    if (!theme) return;
 
     Object.entries(theme).forEach(([key, value]) => {
       document.documentElement.style.setProperty(key, value);
     });
-  }, []);
+  }, [theme]);
+
+  if (loading) return <div>Cargando...</div>;
 
   return (
     <div>
-      <h1>Bienvenido a ChattApp</h1>
-      <a href="/login">Ingresar o Registrarse</a>
+      <HomeScreen></HomeScreen>
     </div>
   );
 }

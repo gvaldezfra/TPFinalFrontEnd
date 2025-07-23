@@ -1,0 +1,80 @@
+/* src/pages/styles/authScreen.css */
+
+* {
+  box-sizing: border-box;
+}
+
+.auth-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: #f9f9f9;
+}
+
+.tab-content {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  padding: 30px 25px;
+  margin-bottom: 20px;
+}
+
+.switch-to-container {
+  text-align: center;
+  font-size: 1rem;
+  color: #333;
+}
+
+.switch-to-container p {
+  margin-bottom: 10px;
+}
+
+.switch-to-button {
+  background-color: transparent;
+  border: none;
+  color: #007bff;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 1rem;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: color 0.2s ease;
+}
+
+.switch-to-button:hover,
+.switch-to-button:focus {
+  color: #0056b3;
+  outline: none;
+}
+
+/* Responsive */
+
+@media (max-width: 360px) {
+  .tab-content {
+    padding: 20px 15px;
+    max-width: 320px;
+  }
+
+  .switch-to-button {
+    font-size: 0.9rem;
+    padding: 5px 10px;
+  }
+}
+
+@media (min-width: 768px) {
+  .tab-content {
+    max-width: 420px;
+    padding: 35px 30px;
+  }
+
+  .switch-to-button {
+    font-size: 1.1rem;
+    padding: 8px 16px;
+  }
+}

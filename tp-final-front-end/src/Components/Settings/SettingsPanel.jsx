@@ -3,12 +3,13 @@ import { useUser } from '../../Contexts/UserContext.jsx';
 import THEMES from '../../Themes/themes.js';
 import './settingsPanel.css';
 
+const baseColors = ['default', 'blue', 'green', 'red', 'purple']; // tus 5 colores base
+
 export default function SettingsSidebar({ onClose }) {
   const { updateColor, logout, user } = useUser();
 
   const handleThemeChange = (themeKey) => {
     if (!THEMES[themeKey]) return;
-
     updateColor(themeKey);
   };
 
@@ -19,28 +20,50 @@ export default function SettingsSidebar({ onClose }) {
 
   return (
     <div className="settings-sidebar">
-      <h2>Temas de color</h2>
+      <button onClick={onClose} className="close-button">X</button>
+      <h2>Personalizar</h2>
+      <p>Elige un tema para tu chat:</p>
 
       <div className="theme-buttons-container">
-        {Object.entries(THEMES).map(([key, theme]) => (
-          <button
-            key={key}
-            onClick={() => handleThemeChange(key)}
-            className="theme-button"
-            style={{
-              backgroundColor: theme['--chat-header'],
-              color: theme['--text-color'],
-              border: user?.color === key ? '2px solid black' : 'none',
-            }}
-            title={key}
-          >
-            {key.charAt(0).toUpperCase() + key.slice(1)}
-          </button>
+        {baseColors.map(color => (
+          <div key={color} className="theme-row">
+            <span style={{ marginRight: '10px', fontWeight: 'bold' }}>
+              {color.charAt(0).toUpperCase() + color.slice(1)}
+            </span>
+
+            {/* Botón Light */}
+            <button
+              onClick={() => handleThemeChange(color + 'Light')}
+              className="theme-button"
+              style={{
+                backgroundColor: THEMES[color + 'Light']['--chat-header'],
+                color: THEMES[color + 'Light']['--text-color'],
+                border: user?.color === color + 'Light' ? '2px solid black' : 'none',
+                marginRight: '5px',
+              }}
+              title={`${color} Light`}
+            >
+              Light
+            </button>
+
+            {/* Botón Dark */}
+            <button
+              onClick={() => handleThemeChange(color + 'Dark')}
+              className="theme-button"
+              style={{
+                backgroundColor: THEMES[color + 'Dark']['--chat-header'],
+                color: THEMES[color + 'Dark']['--text-color'],
+                border: user?.color === color + 'Dark' ? '2px solid black' : 'none',
+              }}
+              title={`${color} Dark`}
+            >
+              Dark
+            </button>
+          </div>
         ))}
       </div>
 
       <button onClick={handleLogout} className="logout">Cerrar sesión</button>
-      <button onClick={onClose} className="close">Cerrar panel</button>
     </div>
   );
 }

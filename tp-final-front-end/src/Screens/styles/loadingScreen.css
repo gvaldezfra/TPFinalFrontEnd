@@ -1,0 +1,34 @@
+/* src/Components/LoadingScreen.css */
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: #c5e3e3;
+  font-family: sans-serif;
+}
+
+.loading-bar {
+  width: 80%;
+  height: 6px;
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  animation: load 1.5s linear infinite;
+  margin-bottom: 16px;
+  border-radius: 4px;
+}
+
+.loading-text {
+  font-size: 1.2rem;
+  color: #333;
+}
+
+@keyframes load {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}

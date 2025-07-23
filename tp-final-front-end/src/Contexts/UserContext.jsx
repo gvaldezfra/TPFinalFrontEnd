@@ -9,59 +9,80 @@ const initialContacts = [
   { id: '2', name: 'Juan', photo: 'https://i.pravatar.cc/150?img=2', email: 'juan@mail.com' },
 ];
 
+// Helper para cambiar el tema de la aplicación
+function applyTheme(themeObj) {
+  if (!themeObj) return;
+  Object.entries(themeObj).forEach(([key, value]) => {
+    document.documentElement.style.setProperty(key, value);
+  });
+}
+
+// Helper para parsear JSON de sessionStorage
+function safeParseJSON(value, fallback) {
+  try {
+    return JSON.parse(value);
+  } catch {
+    return fallback;
+  }
+}
+
 export function UserProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const [contacts, setContacts] = useState(() => {
-    const stored = sessionStorage.getItem('contacts');
-    if (stored) {
-      try {
-        return JSON.parse(stored);
-      } catch {
-        return initialContacts;
-      }
+    const stored = safeParseJSON(sessionStorage.getItem('contacts'), null);
+    if (!stored || !Array.isArray(stored) || stored.length === 0) {
+      sessionStorage.setItem('contacts', JSON.stringify(initialContacts));
+      return initialContacts;
     }
-    return initialContacts;
+    return stored;
   });
 
   const [theme, setTheme] = useState(null);
 
+  // Guarda contactos en sessionStorage
   useEffect(() => {
     sessionStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
+  // Si contacts queda vacío en algún momento, reestablecer iniciales
+  useEffect(() => {
+    if (!contacts || contacts.length === 0) {
+      setContacts(initialContacts);
+      sessionStorage.setItem('contacts', JSON.stringify(initialContacts));
+    }
+  }, [contacts]);
+
+  // Carga el usuario desde sessionStorage al iniciar
   useEffect(() => {
     const stored = sessionStorage.getItem('loggedUser');
     if (stored) {
-      try {
-        const parsed = JSON.parse(stored);
+      const parsed = safeParseJSON(stored, null);
+      if (parsed) {
         if (!parsed.color || !THEMES[parsed.color]) {
-          parsed.color = 'default';
+          parsed.color = 'defaultLight';
         }
         setUser(parsed);
-      } catch (err) {
-        console.warn('Error al parsear loggedUser:', err);
       }
+    } else {
+      setUser({ color: 'defaultLight' });
     }
+    setLoading(false);
   }, []);
 
+  // Aplica el tema al cargar, color default si no hay usuario, o tema del usuario si existe
   useEffect(() => {
     const storedThemeKey = sessionStorage.getItem('selectedTheme');
     if (storedThemeKey && THEMES[storedThemeKey]) {
       setTheme(THEMES[storedThemeKey]);
-      Object.entries(THEMES[storedThemeKey]).forEach(([key, value]) => {
-        document.documentElement.style.setProperty(key, value);
-      });
+      applyTheme(THEMES[storedThemeKey]);
     } else if (user?.color && THEMES[user.color]) {
       setTheme(THEMES[user.color]);
-      Object.entries(THEMES[user.color]).forEach(([key, value]) => {
-        document.documentElement.style.setProperty(key, value);
-      });
+      applyTheme(THEMES[user.color]);
     } else {
-      setTheme(THEMES.default);
-      Object.entries(THEMES.default).forEach(([key, value]) => {
-        document.documentElement.style.setProperty(key, value);
-      });
+      setTheme(THEMES['defaultLight']);
+      applyTheme(THEMES['defaultLight']);
     }
   }, [user]);
 
@@ -71,7 +92,7 @@ export function UserProvider({ children }) {
   };
 
   const login = (userData) => {
-    if (!userData.color || !THEMES[userData.color]) userData.color = 'default';
+    if (!userData.color || !THEMES[userData.color]) userData.color = 'defaultLight';
     saveUser(userData);
   };
 
@@ -95,16 +116,14 @@ export function UserProvider({ children }) {
     if (!THEMES[newColorKey]) return;
     saveUser({ ...user, color: newColorKey });
     setTheme(THEMES[newColorKey]);
-    Object.entries(THEMES[newColorKey]).forEach(([key, value]) => {
-      document.documentElement.style.setProperty(key, value);
-    });
+    applyTheme(THEMES[newColorKey]);
     sessionStorage.setItem('selectedTheme', newColorKey);
   };
 
   const addContact = (newContact) => {
     setContacts((prev) => {
       const exists = prev.some(c => c.email === newContact.email);
-      if (exists) return prev; 
+      if (exists) return prev;
       return [...prev, newContact];
     });
   };
@@ -123,6 +142,7 @@ export function UserProvider({ children }) {
     <UserContext.Provider
       value={{
         user,
+        loading,
         theme,
         contacts,
         login,

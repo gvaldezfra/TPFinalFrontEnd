@@ -10,12 +10,21 @@ export default function MessageProvider({ children }) {
     try {
       const stored = sessionStorage.getItem(STORAGE_KEY);
       if (stored) {
-        return JSON.parse(stored);
-      } else {
+        const parsed = JSON.parse(stored);
+        if (parsed && typeof parsed === 'object') {
+          console.log('Loaded messages from sessionStorage:', parsed);
+          return parsed;
+        }
+        console.warn('Stored messages invalid, loading fakeChats');
         sessionStorage.setItem(STORAGE_KEY, JSON.stringify(fakeChats));
         return fakeChats;
+      } else {
+        sessionStorage.setItem(STORAGE_KEY, JSON.stringify(fakeChats));
+        console.log('Loaded messages from fakeChats');
+        return fakeChats;
       }
-    } catch {
+    } catch (e) {
+      console.error('Error loading messages:', e);
       return fakeChats;
     }
   });
@@ -27,20 +36,20 @@ export default function MessageProvider({ children }) {
   const sendMessage = (contactId, messageContent) => {
     const newMessage = {
       id: `m${Date.now()}`,
-      text: messageContent, 
+      text: messageContent,
       sender: 'me',
       timestamp: Date.now(),
     };
 
-    setMessagesByContact(prev => ({
+    setMessagesByContact((prev) => ({
       ...prev,
       [contactId]: [...(prev[contactId] || []), newMessage],
     }));
   };
 
   const deleteMessage = (contactId, messageId) => {
-    setMessagesByContact(prev => {
-      const updatedMessages = (prev[contactId] || []).map(msg =>
+    setMessagesByContact((prev) => {
+      const updatedMessages = (prev[contactId] || []).map((msg) =>
         msg.id === messageId ? { ...msg, deleted: true } : msg
       );
 
@@ -52,7 +61,7 @@ export default function MessageProvider({ children }) {
   };
 
   const clearMessages = (contactId) => {
-    setMessagesByContact(prev => {
+    setMessagesByContact((prev) => {
       const copy = { ...prev };
       delete copy[contactId];
       return copy;
@@ -64,13 +73,15 @@ export default function MessageProvider({ children }) {
   };
 
   return (
-    <MessageContext.Provider value={{
-      messagesByContact,
-      sendMessage,
-      deleteMessage,
-      clearMessages,
-      getMessages,
-    }}>
+    <MessageContext.Provider
+      value={{
+        messagesByContact,
+        sendMessage,
+        deleteMessage,
+        clearMessages,
+        getMessages,
+      }}
+    >
       {children}
     </MessageContext.Provider>
   );

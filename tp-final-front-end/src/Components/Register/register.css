@@ -1,6 +1,5 @@
-/* src/pages/login.css */
+/* src/pages/register.css */
 
-/* Reset y base */
 * {
   box-sizing: border-box;
 }
@@ -12,15 +11,15 @@ body {
   color: #333;
 }
 
-.login-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
+.register-container {
   max-width: 400px;
   margin: 40px auto;
+  background: white;
+  padding: 20px 30px;
   border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .app-title {
@@ -32,18 +31,21 @@ body {
   user-select: none;
 }
 
-.login-title {
-  font-size: 1.8rem;
+.register-title {
+  font-size: 2rem;
   margin-bottom: 24px;
+  color: #000000;
+  user-select: none;
   text-align: center;
-  color: #222;
 }
 
-.login-form {
+.register-form {
   width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-.login-input {
+.register-input {
   width: 100%;
   padding: 12px 14px;
   margin-bottom: 16px;
@@ -53,29 +55,35 @@ body {
   transition: border-color 0.2s ease;
 }
 
-.login-input:focus {
+.register-input:focus {
   border-color: #007bff;
   outline: none;
 }
 
-.login-button {
+.register-button {
   width: 100%;
   padding: 12px;
+  font-size: 1.1rem;
+  color: white;
   background-color: #007bff;
   border: none;
   border-radius: 6px;
-  font-size: 1.1rem;
-  color: white;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
-.login-button:hover {
+.register-button:hover {
   background-color: #0056b3;
 }
 
-/* Botón "Volver al inicio" */
-.login-form > a > button {
+.register-error {
+  margin-top: 10px;
+  color: red;
+  text-align: center;
+  font-weight: 600;
+}
+
+.register-back-button {
   margin-top: 16px;
   width: 100%;
   padding: 10px;
@@ -87,44 +95,47 @@ body {
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.login-form > a > button:hover {
+.register-back-button:hover {
   background-color: #eee;
 }
 
 /* Responsive */
 
-/* Para pantallas muy pequeñas */
 @media (max-width: 360px) {
-  .login-container {
+  .register-container {
     margin: 20px 10px;
-    padding: 15px;
+    padding: 15px 20px;
   }
 
-  .login-title {
-    font-size: 1.5rem;
-    margin-bottom: 18px;
+  .app-title,
+  .register-title {
+    font-size: 1.7rem;
+    margin-bottom: 20px;
   }
 
-  .login-button,
-  .login-input,
-  .login-form > a > button {
+  .register-input,
+  .register-button,
+  .register-back-button {
     font-size: 1rem;
     padding: 10px;
   }
 }
 
-/* Para pantallas grandes */
 @media (min-width: 768px) {
-  .login-container {
+  .register-container {
     max-width: 400px;
     margin: 60px auto;
   }
 
-  .login-title {
-    font-size: 2rem;
+  .app-title {
+    font-size: 2.4rem;
   }
 
-  .login-button {
+  .register-title {
+    font-size: 2.2rem;
+  }
+
+  .register-button {
     font-size: 1.2rem;
   }
 }

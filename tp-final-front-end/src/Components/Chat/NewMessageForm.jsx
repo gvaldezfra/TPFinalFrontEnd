@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import EmojiPicker from 'emoji-picker-react';
 import './styles/newMessageForm.css';
+import { IoMdSend } from "react-icons/io";
 
 export default function NewMessageForm({ onSend }) {
   const [text, setText] = useState('');
@@ -15,7 +16,11 @@ export default function NewMessageForm({ onSend }) {
     e.preventDefault();
 
     if (imagePreview) {
-      handleSendImage();
+      onSend({ type: 'image', data: imagePreview });
+      setImageFile(null);
+      setImagePreview(null);
+      setText('');
+      setShowEmojiPicker(false);
       return;
     }
 
@@ -36,25 +41,18 @@ export default function NewMessageForm({ onSend }) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImageFile(file);
-        setImagePreview(reader.result); 
+        setImagePreview(reader.result);
       };
       reader.readAsDataURL(file);
     }
-  };
-
-  const handleSendImage = () => {
-    if (imagePreview) {
-      onSend({ type: 'image', data: imagePreview });
-      setImageFile(null);
-      setImagePreview(null);
-    }
+    // Limpia el input para poder subir la misma imagen si se quiere
+    e.target.value = '';
   };
 
   const cancelImage = () => {
     setImageFile(null);
     setImagePreview(null);
   };
-
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -87,6 +85,7 @@ export default function NewMessageForm({ onSend }) {
           className="emoji-button"
           onClick={() => setShowEmojiPicker(prev => !prev)}
           title="Agregar emoji"
+          aria-label="Mostrar selector de emojis"
           ref={buttonRef}
         >
           😀
@@ -98,9 +97,10 @@ export default function NewMessageForm({ onSend }) {
           placeholder="Escribí un mensaje..."
           value={text}
           onChange={e => setText(e.target.value)}
+          aria-label="Escribir mensaje"
         />
 
-        <label className="image-upload-button" title="Enviar imagen">
+        <label className="image-upload-button" title="Enviar imagen" aria-label="Subir imagen">
           📷
           <input
             type="file"
@@ -110,8 +110,12 @@ export default function NewMessageForm({ onSend }) {
           />
         </label>
 
-        <button type="submit" className="new-message-button">
-          Enviar
+        <button
+          type="submit"
+          className="new-message-button"
+          aria-label="Enviar mensaje"
+        >
+          <IoMdSend />
         </button>
       </form>
 
@@ -124,8 +128,13 @@ export default function NewMessageForm({ onSend }) {
       {imagePreview && (
         <div className="image-preview-container">
           <img src={imagePreview} alt="preview" className="image-preview" />
-          <button onClick={cancelImage} className="cancel-image-button">❌</button>
-          <button onClick={handleSendImage} className="send-image-button">📤</button>
+          <button
+            onClick={cancelImage}
+            className="cancel-image-button"
+            aria-label="Cancelar imagen seleccionada"
+          >
+            ❌
+          </button>
         </div>
       )}
     </div>

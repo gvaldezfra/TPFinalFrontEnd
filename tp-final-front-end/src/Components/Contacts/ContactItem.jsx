@@ -15,7 +15,7 @@ function formatTime(timestamp) {
 }
 
 export default function ContactItem({ contact, isActive, onClick, onAction }) {
-  const { name, photo, lastMessage, lastMessageTime, isPinned} = contact;
+  const { name, photo, lastMessage, lastMessageTime, isPinned } = contact;
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
 
@@ -29,7 +29,6 @@ export default function ContactItem({ contact, isActive, onClick, onAction }) {
     onAction?.(action, contact);
   };
 
-  // Cerrar menú si clic afuera
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -48,7 +47,7 @@ export default function ContactItem({ contact, isActive, onClick, onAction }) {
 
   return (
     <div
-      className={`contact-item ${isActive ? 'active' : '' }`}
+      className={`contact-item ${isActive ? 'active' : ''}`}
       onClick={onClick}
     >
       <img src={photo} alt={name} className="contact-photo" />
@@ -69,7 +68,9 @@ export default function ContactItem({ contact, isActive, onClick, onAction }) {
         <button className="options-btn" onClick={toggleMenu}>⋮</button>
         {showMenu && (
           <div className="options-menu">
-            <div onClick={() => handleAction('pin')}>{isPinned ? '📌 Quitar fijado' : '📌 Fijar chat' }</div>
+            <div onClick={() => handleAction('pin')}>
+              {isPinned ? '📌 Quitar fijado' : '📌 Fijar chat'}
+            </div>
             <div onClick={() => handleAction('clear')}>🧹 Vaciar chat</div>
           </div>
         )}

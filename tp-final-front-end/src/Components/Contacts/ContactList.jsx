@@ -1,8 +1,11 @@
+// src/Components/Contacts/ContactList.jsx
 import React from 'react';
 import ContactItem from './ContactItem.jsx';
 import './styles/contactList.css';
 
-export default function ContactsList({ contacts, activeContactId, onSelect, onAction }) {
+export default function ContactsList({ contacts = [], activeContactId, onSelect, onAction }) {
+  if (!Array.isArray(contacts)) return null;
+
   return (
     <div className="contacts-list-container">
       {contacts.map(contact => (
@@ -11,7 +14,7 @@ export default function ContactsList({ contacts, activeContactId, onSelect, onAc
           contact={contact}
           isActive={contact.id === activeContactId}
           onClick={() => onSelect(contact.id)}
-          onAction={onAction} 
+          onAction={onAction}
         />
       ))}
     </div>

@@ -6,7 +6,7 @@ export default function Logout() {
 
   const handleLogout = () => {
     sessionStorage.removeItem('user');
-    navigate('/login');
+    navigate('/auth');
   };
 
   return (

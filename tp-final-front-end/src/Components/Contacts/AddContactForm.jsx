@@ -25,7 +25,7 @@ export default function AddContactForm({ onAdd, onCancel }) {
                 required
             />
             <input
-                type="tel"
+                type="email"
                 placeholder="Correo electrónico"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}

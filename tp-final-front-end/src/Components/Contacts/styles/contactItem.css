@@ -1,17 +1,23 @@
 .contact-item {
+    display: flex;
+    flex-direction: row;
+    row-gap: 10px;;
     width: 100%;
     cursor: pointer;
     padding: 10px;
     border-bottom: 1px solid #ccc;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
     justify-items: start;
 }
 
 .contact-item.active {
     display: flex;
+    width: 100%;
     align-items: center;
+    flex-direction: row;
+    row-gap: 10px;
     justify-content: flex-start;
     background-color: #d0e6ff;
 }
@@ -39,6 +45,9 @@
 }
 
 .contact-name {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
     font-weight: bold;
     white-space: nowrap;
     overflow: hidden;
