@@ -1,4 +1,3 @@
-// src/Screens/ChatsScreen.jsx
 import React, { useContext, useState, useMemo, useEffect } from 'react';
 import { MessageContext } from '../Contexts/MessageContext.jsx';
 import { useUser } from '../Contexts/UserContext.jsx';
@@ -16,15 +15,11 @@ export default function ChatScreen() {
   const { messagesByContact, sendMessage, clearMessages, deleteMessage } = useContext(MessageContext);
   const {
     user,
-    pinChat,
-    unpinChat,
+    contacts,
     addContact,
+    deleteContact,
+    login,         
   } = useUser();
-
-  const [contacts, setContacts] = useState([
-    { id: '1', name: 'Ana', photo: 'https://i.pravatar.cc/150?img=1' },
-    { id: '2', name: 'Juan', photo: 'https://i.pravatar.cc/150?img=2' },
-  ]);
 
   const [activeContactId, setActiveContactId] = useState(null);
   const [showSettings, setShowSettings] = useState(false);
@@ -47,9 +42,21 @@ export default function ChatScreen() {
       const messages = messagesByContact[contact.id] || [];
       const lastMsg = messages[messages.length - 1];
 
+      let lastMessageText = '';
+
+      if (lastMsg) {
+        if (typeof lastMsg.text === 'string') {
+          lastMessageText = lastMsg.text;
+        } else if (lastMsg.text?.type === 'image') {
+          lastMessageText = '[imagen]';
+        } else {
+          lastMessageText = '[mensaje no soportado]';
+        }
+      }
+
       return {
         ...contact,
-        lastMessage: lastMsg?.text,
+        lastMessage: lastMessageText,
         lastMessageTime: lastMsg?.timestamp,
         isFavorite: user.favorites?.includes(contact.id) ?? false,
         isPinned: user.pinned?.includes(contact.id) ?? false,
@@ -71,10 +78,14 @@ export default function ChatScreen() {
       filtered.sort((a, b) => (b.lastMessageTime || 0) - (a.lastMessageTime || 0));
     }
 
-    const pinned = filtered.filter(c => c.isPinned);
-    const others = filtered.filter(c => !c.isPinned);
+    const pinnedIds = user.pinned || [];
+    const pinnedContacts = pinnedIds
+      .map(id => filtered.find(c => c.id === id))
+      .filter(Boolean);
 
-    return [...pinned, ...others];
+    const others = filtered.filter(c => !pinnedIds.includes(c.id));
+
+    return [...pinnedContacts, ...others];
   }, [contacts, messagesByContact, user, searchTerm, sortOption]);
 
   const messages = messagesByContact[activeContactId] || [];
@@ -91,24 +102,25 @@ export default function ChatScreen() {
     });
   }, [theme]);
 
-  // useEffect(() => {
-  //   const activeStillVisible = contactsWithLastMessage.some(c => c.id === activeContactId);
-  //   if (!activeStillVisible) {
-  //     const nextContact = contactsWithLastMessage.find(c => c.id !== activeContactId);
-  //     setActiveContactId(nextContact ? nextContact.id : null);
-  //   }
-  // }, [contactsWithLastMessage, activeContactId]);
+  const togglePin = (contactId) => {
+    if (!user) return;
+    const pinned = user.pinned || [];
+    let newPinned;
+    if (pinned.includes(contactId)) {
+      newPinned = pinned.filter(id => id !== contactId);
+    } else {
+      newPinned = [contactId, ...pinned];
+    }
+    login({ ...user, pinned: newPinned });
+  };
 
   const handleContactAction = (action, contact) => {
     switch (action) {
-      case 'Fijar':
-        setContacts(prev => [contact, ...prev.filter(c => c.id !== contact.id)]);
+      case 'pin':
+        togglePin(contact.id);
         break;
-      case 'Vaciar':
+      case 'clear':
         clearMessages(contact.id);
-        break;
-      case 'Eliminar':
-        setContacts(prev => prev.filter(c => c.id !== contact.id));
         break;
       default:
         break;
@@ -209,7 +221,7 @@ export default function ChatScreen() {
         <Chat
           contact={activeContactFull}
           messages={messages}
-          onSendMessage={(text) => sendMessage(activeContactId, text)}
+          onSendMessage={(messageContent) => sendMessage(activeContactId, messageContent)}
           onDeleteMessage={deleteMessage}
         />
       </div>

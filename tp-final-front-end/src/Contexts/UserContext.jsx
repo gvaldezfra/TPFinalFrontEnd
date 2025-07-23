@@ -1,21 +1,42 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import THEMES from '../Themes/themes.js'; // ruta relativa, ajusta si hace falta
+import THEMES from '../Themes/themes.js';
 
 export const UserContext = createContext();
 export const useUser = () => useContext(UserContext);
 
+const initialContacts = [
+  { id: '1', name: 'Ana', photo: 'https://i.pravatar.cc/150?img=1', email: 'ana@mail.com' },
+  { id: '2', name: 'Juan', photo: 'https://i.pravatar.cc/150?img=2', email: 'juan@mail.com' },
+];
+
 export function UserProvider({ children }) {
   const [user, setUser] = useState(null);
+
+  const [contacts, setContacts] = useState(() => {
+    const stored = sessionStorage.getItem('contacts');
+    if (stored) {
+      try {
+        return JSON.parse(stored);
+      } catch {
+        return initialContacts;
+      }
+    }
+    return initialContacts;
+  });
+
   const [theme, setTheme] = useState(null);
 
-  // Cargar usuario desde localStorage al iniciar
   useEffect(() => {
-    const stored = localStorage.getItem('loggedUser');
+    sessionStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
+
+  useEffect(() => {
+    const stored = sessionStorage.getItem('loggedUser');
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
         if (!parsed.color || !THEMES[parsed.color]) {
-          parsed.color = 'default'; // fallback a tema 'default' si no existe
+          parsed.color = 'default';
         }
         setUser(parsed);
       } catch (err) {
@@ -24,12 +45,10 @@ export function UserProvider({ children }) {
     }
   }, []);
 
-  // Cargar tema desde localStorage o fallback según user.color
   useEffect(() => {
-    const storedThemeKey = localStorage.getItem('selectedTheme');
+    const storedThemeKey = sessionStorage.getItem('selectedTheme');
     if (storedThemeKey && THEMES[storedThemeKey]) {
       setTheme(THEMES[storedThemeKey]);
-      // Aplicar variables CSS
       Object.entries(THEMES[storedThemeKey]).forEach(([key, value]) => {
         document.documentElement.style.setProperty(key, value);
       });
@@ -39,7 +58,6 @@ export function UserProvider({ children }) {
         document.documentElement.style.setProperty(key, value);
       });
     } else {
-      // Si no hay tema guardado, cargamos el default
       setTheme(THEMES.default);
       Object.entries(THEMES.default).forEach(([key, value]) => {
         document.documentElement.style.setProperty(key, value);
@@ -47,10 +65,9 @@ export function UserProvider({ children }) {
     }
   }, [user]);
 
-  // Guardar user y persistir
   const saveUser = (newUser) => {
     setUser(newUser);
-    localStorage.setItem('loggedUser', JSON.stringify(newUser));
+    sessionStorage.setItem('loggedUser', JSON.stringify(newUser));
   };
 
   const login = (userData) => {
@@ -60,7 +77,7 @@ export function UserProvider({ children }) {
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('loggedUser');
+    sessionStorage.removeItem('loggedUser');
   };
 
   const updateName = (newName) => {
@@ -75,14 +92,31 @@ export function UserProvider({ children }) {
 
   const updateColor = (newColorKey) => {
     if (!user) return;
-    if (!THEMES[newColorKey]) return; // validar que exista el tema
+    if (!THEMES[newColorKey]) return;
     saveUser({ ...user, color: newColorKey });
     setTheme(THEMES[newColorKey]);
-    // Aplicar variables CSS
     Object.entries(THEMES[newColorKey]).forEach(([key, value]) => {
       document.documentElement.style.setProperty(key, value);
     });
-    localStorage.setItem('selectedTheme', newColorKey);
+    sessionStorage.setItem('selectedTheme', newColorKey);
+  };
+
+  const addContact = (newContact) => {
+    setContacts((prev) => {
+      const exists = prev.some(c => c.email === newContact.email);
+      if (exists) return prev; 
+      return [...prev, newContact];
+    });
+  };
+
+  const editContact = (updatedContact) => {
+    setContacts(prev =>
+      prev.map(c => (c.id === updatedContact.id ? { ...c, ...updatedContact } : c))
+    );
+  };
+
+  const deleteContact = (contactId) => {
+    setContacts(prev => prev.filter(c => c.id !== contactId));
   };
 
   return (
@@ -90,12 +124,17 @@ export function UserProvider({ children }) {
       value={{
         user,
         theme,
+        contacts,
         login,
         logout,
         updateName,
         updatePhoto,
         updateColor,
         setTheme,
+        addContact,
+        editContact,
+        deleteContact,
+        setContacts,
       }}
     >
       {children}

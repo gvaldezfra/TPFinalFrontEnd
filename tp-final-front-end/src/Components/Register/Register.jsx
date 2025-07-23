@@ -24,7 +24,7 @@ export default function Register() {
             return;
         }
 
-        const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
+        const existingUsers = JSON.parse(sessionStorage.getItem('users')) || [];
         const emailRepetido = existingUsers.find(user => user.email === email);
 
         if (emailRepetido) {
@@ -41,11 +41,10 @@ export default function Register() {
             favorites: [],
             blocked: [],
             pinned: [],
-            archived: [],
         };
 
         const updatedUsers = [...existingUsers, newUser];
-        localStorage.setItem('users', JSON.stringify(updatedUsers));
+        sessionStorage.setItem('users', JSON.stringify(updatedUsers));
 
         login(newUser); 
         setError('');

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useUser } from '../../Contexts/UserContext.jsx';
 import THEMES from '../../Themes/themes.js';
-import './SettingsPanel.css';
+import './settingsPanel.css';
 
 export default function SettingsSidebar({ onClose }) {
   const { updateColor, logout, user } = useUser();

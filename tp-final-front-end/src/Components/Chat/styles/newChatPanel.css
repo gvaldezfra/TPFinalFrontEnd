@@ -27,3 +27,18 @@
 .new-contact-span {
     cursor: pointer;
 }
+
+.emoji-picker-container {
+  position: absolute;
+  bottom: 60px;
+  left: 10px;
+  z-index: 10;
+}
+
+.emoji-toggle-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  margin-right: 5px;
+}

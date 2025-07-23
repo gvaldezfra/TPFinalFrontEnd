@@ -19,7 +19,7 @@ export default function Login() {
             return;
         }
 
-        const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
+        const existingUsers = JSON.parse(sessionStorage.getItem('users')) || [];
 
         const user = existingUsers.find(
             (user) => user.email === email && user.password === password
@@ -30,9 +30,8 @@ export default function Login() {
             return;
         }
 
-        // Guardar usuario logueado (puede ser para uso posterior)
         login(user);
-        navigate('/chat'); // Cambia por la ruta que quieras para el chat o página principal
+        navigate('/chat'); 
     };
 
     return (

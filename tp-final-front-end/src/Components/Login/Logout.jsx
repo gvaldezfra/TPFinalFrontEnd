@@ -5,8 +5,8 @@ export default function Logout() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('user'); // limpiar datos de usuario
-    navigate('/login'); // ir a login
+    sessionStorage.removeItem('user');
+    navigate('/login');
   };
 
   return (
