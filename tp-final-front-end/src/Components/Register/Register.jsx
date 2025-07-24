@@ -84,7 +84,7 @@ export default function Register() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
             >
-                Registrate
+                Registrarse
             </motion.h2>
 
             <motion.form
@@ -138,14 +138,21 @@ export default function Register() {
                     {error}
                 </motion.p>
             )}
-            
+
             <motion.div
+                className="register-back-container"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6 }}
             >
                 <Link to="/">
-                    <button className="register-back-button">Volver al inicio</button>
+                    <motion.button
+                        className="register-back-button"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                    >
+                        Volver al inicio
+                    </motion.button>
                 </Link>
             </motion.div>
         </motion.div>

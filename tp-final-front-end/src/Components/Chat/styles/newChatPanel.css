@@ -28,6 +28,10 @@
     cursor: pointer;
 }
 
+.new-contact-span:hover {
+    color: #007bff;
+}
+
 .emoji-picker-container {
   position: absolute;
   bottom: 60px;

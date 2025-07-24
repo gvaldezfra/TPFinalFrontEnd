@@ -22,7 +22,7 @@
   margin-top: 1rem;
   padding: 0.8rem 2rem;
   font-size: 1.1rem;
-  background-color: var(--primary-color, #4CAF50);
+  background-color: var(--primary-color, #014F86);
   color: white;
   border: none;
   border-radius: 8px;
@@ -31,5 +31,5 @@
 }
 
 .start-button:hover {
-  background-color: #388e3c;
+  background-color: #012A4A;
 }

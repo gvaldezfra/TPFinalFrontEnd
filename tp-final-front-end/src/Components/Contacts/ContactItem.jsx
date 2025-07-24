@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './styles/contactItem.css';
+import { SlOptionsVertical } from "react-icons/sl";
 
 function formatTime(timestamp) {
   if (!timestamp) return '';
@@ -65,7 +66,12 @@ export default function ContactItem({ contact, isActive, onClick, onAction }) {
 
       {/* Botón de menú */}
       <div className="contact-options" ref={menuRef}>
-        <button className="options-btn" onClick={toggleMenu}>⋮</button>
+        <button
+          className="options-btn"
+          onClick={toggleMenu}
+        >
+          <SlOptionsVertical size={20} />
+        </button>
         {showMenu && (
           <div className="options-menu">
             <div onClick={() => handleAction('pin')}>

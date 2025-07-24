@@ -64,7 +64,7 @@ export default function Login() {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3, duration: 0.4 }}
       >
-        Ingresá y empezá a chatear
+        Iniciar sesión
       </motion.h2>
 
       <motion.div

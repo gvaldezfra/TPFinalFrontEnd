@@ -3,6 +3,7 @@ import ContactsList from '../Contacts/ContactList.jsx';
 import AddContactForm from '../Contacts/AddContactForm.jsx';
 import './styles/newChatPanel.css';
 
+
 export default function NewChatPanel({ visible,contacts, onSelect, activeContactId, onAddContact, onClose }) {
   if (!visible) return null;
   const [showAddForm, setShowAddForm] = useState(false);
@@ -21,9 +22,12 @@ export default function NewChatPanel({ visible,contacts, onSelect, activeContact
         <h2>Nuevo chat</h2>
         <button className="close-button" onClick={onClose}>❌</button>
       </div>
-    <span className="new-contact-span" onClick={() => setShowAddForm(true)}>
-          ➕ Nuevo contacto
-        </span>
+      <button
+        className="new-contact-span"
+        onClick={() => setShowAddForm(true)}
+      >
+        ➕ Nuevo contacto
+      </button>
 
       {showAddForm ? (
         <AddContactForm

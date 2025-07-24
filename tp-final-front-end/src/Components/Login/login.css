@@ -24,16 +24,17 @@ body {
 }
 
 .app-title {
-  font-size: 2.2rem;
+  font-size: 2.5rem;
   font-weight: 700;
-  color: #007bff;
+  color: #014F86;
   margin-bottom: 10px;
   text-align: center;
   user-select: none;
 }
 
 .login-title {
-  font-size: 1.8rem;
+  font-size: 2rem;
+  font-weight: 600;
   margin-bottom: 24px;
   text-align: center;
   color: #222;
@@ -54,14 +55,14 @@ body {
 }
 
 .login-input:focus {
-  border-color: #007bff;
+  border-color: #2A6F97;
   outline: none;
 }
 
 .login-button {
   width: 100%;
   padding: 12px;
-  background-color: #007bff;
+  background-color: #2A6F97;
   border: none;
   border-radius: 6px;
   font-size: 1.1rem;
@@ -71,7 +72,7 @@ body {
 }
 
 .login-button:hover {
-  background-color: #0056b3;
+  background-color: #014F86;
 }
 
 /* Botón "Volver al inicio" */

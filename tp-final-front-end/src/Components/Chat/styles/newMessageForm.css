@@ -72,3 +72,16 @@
   color: green;
   transform: scale(1.1);
 }
+
+.emoji-button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 4px;
+    transition: transform 0.2s ease;
+  }
+  
+  .emoji-button:hover {
+    transform: scale(1.1);
+  }
