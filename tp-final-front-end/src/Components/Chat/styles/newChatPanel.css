@@ -1,48 +1,62 @@
-.new-contact-link {
-  display: block;
-  padding: 10px 15px;
-  color: #007bff;
-  cursor: pointer;
-  font-weight: 500;
-  border-bottom: 1px solid #eee;
-  transition: background-color 0.2s;
+/* newChatPanel.css - diseño coherente y responsive */
+
+.new-chat-panel {
+  padding: 16px;
+  background-color: #fff;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: var(--text-color);
 }
 
-.new-contact-link:hover {
-  background-color: #f0f0f0;
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: var(--header-bg);
+}
+
+.new-contact-span {
+  background-color: var(--header-bg);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  align-self: flex-start;
 }
 
 .section-label {
   font-weight: bold;
-  margin: 10px 0 5px;
-  padding-left: 15px;
-  color: #666;
+  margin-top: 12px;
+  color: #333;
 }
 
-.contacts-section {
-  overflow-y: auto;
-  padding: 0 5px 10px;
-}
-
-.new-contact-span {
-    cursor: pointer;
-}
-
-.new-contact-span:hover {
-    color: #007bff;
-}
-
-.emoji-picker-container {
-  position: absolute;
-  bottom: 60px;
-  left: 10px;
-  z-index: 10;
-}
-
-.emoji-toggle-button {
+.close-button {
   background: none;
   border: none;
-  font-size: 20px;
+  color: var(--header-bg);
+  font-size: 1.2rem;
   cursor: pointer;
-  margin-right: 5px;
+}
+
+@media (max-width: 780px) {
+  .new-chat-panel {
+    padding: 12px;
+  }
+
+  .new-contact-span {
+    width: 100%;
+    text-align: center;
+  }
+
+  .sidebar-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

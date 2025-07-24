@@ -5,8 +5,11 @@ export const UserContext = createContext();
 export const useUser = () => useContext(UserContext);
 
 const initialContacts = [
-  { id: '1', name: 'Ana', photo: 'https://i.pravatar.cc/150?img=1', email: 'ana@mail.com' },
-  { id: '2', name: 'Juan', photo: 'https://i.pravatar.cc/150?img=2', email: 'juan@mail.com' },
+  { id: '1', name: 'Shrek', photo: 'https://i.pravatar.cc/150?u=shrek', email: 'shrek@pantano.com' },
+  { id: '2', name: 'Burro', photo: 'https://i.pravatar.cc/150?u=burro', email: 'burro@pantano.com' },
+  { id: '3', name: 'Fiona', photo: 'https://i.pravatar.cc/150?u=fiona', email: 'fiona@pantano.com' },
+  { id: '4', name: 'Gato con Botas', photo: 'https://i.pravatar.cc/150?u=gato', email: 'gato@aventura.com' },
+  { id: '5', name: 'Príncipe Encantador', photo: 'https://i.pravatar.cc/150?u=encantador', email: 'encantador@reino.com' }
 ];
 
 // Helper para cambiar el tema de la aplicación

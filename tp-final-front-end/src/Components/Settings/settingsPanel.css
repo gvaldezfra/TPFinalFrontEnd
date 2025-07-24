@@ -1,64 +1,75 @@
+/* settingsPanel.css - diseño limpio y azul */
+
 .settings-sidebar {
-  width: 100%; 
-  height: 100%;
-  background: rgb(165, 144, 144);
+  background-color: #fff;
   padding: 20px;
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+  color: var(--text-color);
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.settings-sidebar h2 {
+  color: var(--header-bg);
+  margin-bottom: 10px;
+}
+
+.settings-sidebar p {
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.theme-buttons-container {
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.theme-row {
+  display: flex;
+  align-items: center;
   gap: 10px;
 }
 
-
-.settings-sidebar h2,
-.settings-sidebar h3 {
-  margin-top: 0;
-}
-
-.settings-sidebar label {
-  display: flex;
-  flex-direction: column;
-  font-weight: bold;
-}
-
-.settings-sidebar input[type="text"],
-.settings-sidebar input[type="color"] {
-  width: 100%;
-  padding: 6px;
-  margin-top: 4px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.settings-sidebar button {
-  padding: 10px;
+.theme-button {
   border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
   cursor: pointer;
-  border-radius: 4px;
+  min-width: 60px;
+}
+
+.logout {
+  background-color: #ccc;
+  color: #333;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
   font-weight: bold;
-}
-
-.settings-sidebar .logout {
-  background-color: #f44336;
-  color: white;
-}
-
-.settings-sidebar .close {
-  background-color: #aaa;
-  color: white;
 }
 
 .close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 1rem;
-    background: white;
-    border: none;
-    cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: var(--header-bg);
+  float: right;
 }
 
-.close-button:hover {
-    color: #f44336;
+@media (max-width: 780px) {
+  .theme-row {
+    flex-wrap: wrap;
+  }
+
+  .theme-button {
+    flex: 1 1 auto;
+  }
+
+  .logout {
+    width: 100%;
+  }
 }

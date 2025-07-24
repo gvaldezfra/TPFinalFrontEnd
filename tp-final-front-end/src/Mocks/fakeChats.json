@@ -2,13 +2,13 @@
   "1": [
     {
       "id": "m1",
-      "text": "Hola, ¿cómo estás?",
-      "sender": "Ana",
+      "text": "¡Hola burro! ¿Qué travesura hiciste ahora?",
+      "sender": "Shrek",
       "timestamp": 1689000000000
     },
     {
       "id": "m2",
-      "text": "¡Bien! ¿Y vos?",
+      "text": "¡Nada! Solo quería abrazarte.",
       "sender": "me",
       "timestamp": 1689000060000
     }
@@ -16,15 +16,57 @@
   "2": [
     {
       "id": "m3",
-      "text": "¿Viste el partido anoche?",
-      "sender": "Juan",
-      "timestamp": 1688999000000
+      "text": "¿Vamos a buscar al gato con botas?",
+      "sender": "Burro",
+      "timestamp": 1689000500000
     },
     {
       "id": "m4",
-      "text": "Sí, estuvo buenísimo.",
+      "text": "¡Claro! Pero sin más abrazos.",
       "sender": "me",
-      "timestamp": 1688999060000
+      "timestamp": 1689000560000
+    }
+  ],
+  "3": [
+    {
+      "id": "m5",
+      "text": "Te extraño, Shrek.",
+      "sender": "Fiona",
+      "timestamp": 1689001000000
+    },
+    {
+      "id": "m6",
+      "text": "Yo también, mi ogra hermosa ❤️",
+      "sender": "me",
+      "timestamp": 1689001060000
+    }
+  ],
+  "4": [
+    {
+      "id": "m7",
+      "text": "¿Alguien ha visto mi sombrero?",
+      "sender": "Gato con Botas",
+      "timestamp": 1689001200000
+    },
+    {
+      "id": "m8",
+      "text": "Lo llevabas puesto, gato...",
+      "sender": "me",
+      "timestamp": 1689001260000
+    }
+  ],
+  "5": [
+    {
+      "id": "m9",
+      "text": "Esta vez sí ganaré, Shrek.",
+      "sender": "Príncipe Encantador",
+      "timestamp": 1689001400000
+    },
+    {
+      "id": "m10",
+      "text": "Sigue soñando.",
+      "sender": "me",
+      "timestamp": 1689001460000
     }
   ]
 }

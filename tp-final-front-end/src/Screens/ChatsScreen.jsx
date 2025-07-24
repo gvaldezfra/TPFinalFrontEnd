@@ -1,4 +1,4 @@
-
+// ChatsScreen.jsx actualizado con hamburguesa visible en chat-header o navbar según contexto
 import React, { useState, useEffect } from 'react';
 import ContactsList from '../Components/Contacts/ContactList.jsx';
 import ContactDetailsSidebar from '../Components/Contacts/ContactDetailsSidebar.jsx';
@@ -47,13 +47,11 @@ export default function ChatScreen() {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 780);
-      if (window.innerWidth >= 780) {
-        setShowMobileSidebar(true);
-      }
+      const isNowMobile = window.innerWidth < 780;
+      setIsMobile(isNowMobile);
+      if (!isNowMobile) setShowMobileSidebar(true);
     };
     window.addEventListener('resize', handleResize);
-    handleResize();
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
@@ -61,28 +59,29 @@ export default function ChatScreen() {
 
   return (
     <div className={`chat-screen ${isMobile && !showMobileSidebar ? 'mobile-show-chat' : ''}`}>
-      {isMobile && (
-        <button className="hamburger-button" onClick={() => setShowMobileSidebar(!showMobileSidebar)}>
-          <GiHamburgerMenu size={24} />
-        </button>
+      {(!isMobile || (isMobile && showMobileSidebar)) && (
+        <div className="navbar">
+          {isMobile && (
+            <button className="hamburger-button" onClick={() => setShowMobileSidebar(!showMobileSidebar)}>
+              <GiHamburgerMenu size={24} />
+            </button>
+          )}
+          <button className="profile-button" onClick={() => {
+            setShowEditProfile(true);
+            setShowSettings(false);
+            setShowNewChatPanel(false);
+          }}>
+            <CgProfile size={30} />
+          </button>
+          <button className="settings-button" onClick={() => {
+            setShowSettings(true);
+            setShowEditProfile(false);
+            setShowNewChatPanel(false);
+          }}>
+            <IoSettingsOutline size={30} />
+          </button>
+        </div>
       )}
-
-      <div className="navbar">
-        <button className="profile-button" onClick={() => {
-          setShowEditProfile(true);
-          setShowSettings(false);
-          setShowNewChatPanel(false);
-        }}>
-          <CgProfile size={30} />
-        </button>
-        <button className="settings-button" onClick={() => {
-          setShowSettings(true);
-          setShowEditProfile(false);
-          setShowNewChatPanel(false);
-        }}>
-          <IoSettingsOutline size={30} />
-        </button>
-      </div>
 
       {(!isMobile || (isMobile && showMobileSidebar)) && (
         <div className="sidebar">
@@ -93,7 +92,10 @@ export default function ChatScreen() {
               visible={true}
               contacts={contactsWithLastMessage}
               activeContactId={activeContactId}
-              onSelect={setActiveContactId}
+              onSelect={(id) => {
+                setActiveContactId(id);
+                if (isMobile) setShowMobileSidebar(false);
+              }}
               onAddContact={(newContact) => {
                 addContact({ ...newContact, id: Date.now().toString(), photo: 'https://i.pravatar.cc/150' });
                 setShowNewChatPanel(false);
@@ -136,7 +138,6 @@ export default function ChatScreen() {
                 }}
                 onAction={handleContactAction}
               />
-
             </>
           )}
         </div>
@@ -145,12 +146,16 @@ export default function ChatScreen() {
       {(!isMobile || (isMobile && !showMobileSidebar)) && (
         <div className="chat-panel">
           <div className="chat-header">
+            {isMobile && !showMobileSidebar && (
+              <button className="hamburger-button" onClick={() => setShowMobileSidebar(true)}>
+                <GiHamburgerMenu size={24} />
+              </button>
+            )}
             <img src={activeContact?.photo} alt={activeContact?.name || ''} />
             <span style={{ cursor: 'pointer' }} onClick={() => setShowContactDetail(true)}>
               {activeContact?.name || 'Sin contacto activo'}
             </span>
           </div>
-
           <Chat
             contact={activeContact}
             messages={messages}
