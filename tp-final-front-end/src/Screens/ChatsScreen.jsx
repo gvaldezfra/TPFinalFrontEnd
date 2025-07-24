@@ -60,7 +60,7 @@ export default function ChatScreen() {
   if (loading) return <div className="loading">Cargando...</div>;
 
   return (
-    <div className="chat-screen">
+    <div className={`chat-screen ${isMobile && !showMobileSidebar ? 'mobile-show-chat' : ''}`}>
       {isMobile && (
         <button className="hamburger-button" onClick={() => setShowMobileSidebar(!showMobileSidebar)}>
           <GiHamburgerMenu size={24} />
@@ -130,9 +130,13 @@ export default function ChatScreen() {
               <ContactsList
                 contacts={contactsWithLastMessage}
                 activeContactId={activeContactId}
-                onSelect={setActiveContactId}
+                onSelect={(id) => {
+                  setActiveContactId(id);
+                  if (isMobile) setShowMobileSidebar(false);
+                }}
                 onAction={handleContactAction}
               />
+
             </>
           )}
         </div>

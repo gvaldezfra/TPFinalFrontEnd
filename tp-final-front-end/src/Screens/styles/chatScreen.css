@@ -1,4 +1,3 @@
-
 .chat-screen {
     display: flex;
     flex-direction: row;
@@ -208,4 +207,8 @@
         font-size: 1.5rem;
         cursor: pointer;
     }
+}
+
+.chat-screen.mobile-show-chat .navbar {
+    display: none;
 }
