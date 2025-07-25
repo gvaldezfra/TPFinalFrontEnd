@@ -3,7 +3,7 @@ import { useUser } from '../../Contexts/UserContext.jsx';
 import THEMES from '../../Themes/themes.js';
 import './settingsPanel.css';
 
-const baseColors = ['default', 'blue', 'green', 'red', 'purple']; // tus 5 colores base
+const baseColors = ['default', 'blue', 'green', 'red', 'purple']; 
 
 export default function SettingsSidebar({ onClose }) {
   const { updateColor, logout, user } = useUser();
@@ -51,7 +51,7 @@ export default function SettingsSidebar({ onClose }) {
               onClick={() => handleThemeChange(color + 'Dark')}
               className="theme-button"
               style={{
-                backgroundColor: THEMES[color + 'Dark']['--chat-header'],
+                backgroundColor: THEMES[color + 'Dark']['var(--chat-header)'],
                 color: THEMES[color + 'Dark']['--text-color'],
                 border: user?.color === color + 'Dark' ? '2px solid black' : 'none',
               }}

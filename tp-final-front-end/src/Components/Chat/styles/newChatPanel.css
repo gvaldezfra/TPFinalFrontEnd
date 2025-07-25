@@ -1,8 +1,6 @@
-/* newChatPanel.css - diseño coherente y responsive */
-
 .new-chat-panel {
   padding: 16px;
-  background-color: #fff;
+  background-color: var(--primary-bg-color); /* antes #fff */
   height: 100%;
   box-sizing: border-box;
   display: flex;
@@ -22,19 +20,24 @@
 
 .new-contact-span {
   background-color: var(--header-bg);
-  color: white;
+  color: var(--header-text, white);
   border: none;
   padding: 8px 12px;
   border-radius: 6px;
   font-weight: bold;
   cursor: pointer;
   align-self: flex-start;
+  transition: background-color 0.3s ease;
+}
+
+.new-contact-span:hover {
+  background-color: var(--button-hover-bg);
 }
 
 .section-label {
   font-weight: bold;
   margin-top: 12px;
-  color: #333;
+  color: var(--primary-title-color, #333);
 }
 
 .close-button {
@@ -43,6 +46,11 @@
   color: var(--header-bg);
   font-size: 1.2rem;
   cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-button:hover {
+  color: var(--button-bg);
 }
 
 @media (max-width: 780px) {

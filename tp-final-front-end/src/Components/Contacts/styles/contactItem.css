@@ -1,93 +1,102 @@
 .contact-item {
-    display: flex;
-    flex-direction: row;
-    row-gap: 10px;;
-    width: 100%;
-    cursor: pointer;
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    justify-items: start;
+  display: flex;
+  flex-direction: row;
+  row-gap: 10px;
+  width: 100%;
+  cursor: pointer;
+  padding: 10px;
+  border-bottom: 1px solid var(--primary-line-color);
+  align-items: center;
+  justify-content: space-between;
+  justify-items: start;
 }
 
 .contact-item.active {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    flex-direction: row;
-    row-gap: 10px;
-    justify-content: flex-start;
-    background-color: #d0e6ff;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  flex-direction: row;
+  row-gap: 10px;
+  justify-content: flex-start;
+  background-color: var(--active-contact-bg);
 }
 
 .contact-content {
-    display: flex;
-    justify-content: space-between;
-    justify-items: start;
-    flex-direction: row;
-    align-items: center;
-    flex: 1;
+  display: flex;
+  justify-content: space-between;
+  justify-items: start;
+  flex-direction: row;
+  align-items: center;
+  flex: 1;
 }
 
-.contact-photo {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-    object-fit: cover;
+.contact-item-photo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
 }
 
 .contact-texts {
-    flex: 1;
-    overflow: hidden;
+  flex: 1;
+  overflow: hidden;
 }
 
 .contact-name {
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    font-weight: bold;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--primary-title-color);
 }
 
 .contact-last-message {
-    color: #555;
-    font-size: 0.9em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100%;
+  color: var(--primary-text-color);
+  font-size: 0.9em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .contact-time {
-    margin-left: 10px;
-    font-size: 0.8em;
-    color: #888;
-    white-space: nowrap;
-    flex-shrink: 0;
+  margin-left: 10px;
+  font-size: 0.8em;
+  color: var(--primary-text-color); /* antes #888, ahora variable */
+  opacity: 0.6;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
- .contact-options {
+
+.contact-options {
   position: relative;
 }
 
 .options-btn {
+  position: relative;
   background: none;
   border: none;
   font-size: 20px;
   cursor: pointer;
+  color: var(--primary-text-color); /* antes var(--sidebar-text) no definido */
+  transition: color 0.3s ease;
+}
+
+.options-btn:hover {
+  color: var(--button-bg);
 }
 
 .options-menu {
   position: absolute;
   top: 100%;
   right: 0;
-  background: white;
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  background: var(--primary-bg-color);
+  border: 1px solid var(--primary-line-color);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   border-radius: 6px;
   padding: 4px 0;
   z-index: 999;
@@ -97,8 +106,10 @@
 .options-menu > div {
   padding: 10px 16px;
   cursor: pointer;
+  color: var(--primary-text-color);
+  transition: background-color 0.3s ease;
 }
 
 .options-menu > div:hover {
-  background-color: #eee;
+  background-color: var(--active-contact-bg);
 }

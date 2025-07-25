@@ -1,41 +1,49 @@
 .new-message-wrapper {
-    position: relative;
-    width: 100%;
-}   
-
-
+  position: relative;
+  width: 100%;
+}
 
 .new-message-form {
-    width: 100%;
-    display: flex;
-    gap: 8px;
-    padding-top: 10px;
-    flex-direction: row;
-    justify-content: space-between;
+  width: 100%;
+  display: flex;
+  gap: 8px;
+  padding-top: 10px;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+/* El foco debería ir en el input, no en el form */
+.new-message-input:focus {
+  outline: none;
+  border: 1px solid var(--button-bg);
+  box-shadow: 0 0 5px var(--button-bg);
 }
 
 .new-message-input {
-    flex: 1;
-    width: 100%;
-    padding: 10px;
-    border-radius: 20px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
+  flex: 1;
+  width: 100%;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid var(--primary-line-color); /* antes #ccc */
+  font-size: 1rem;
+  color: var(--text-color);
+  background-color: var(--input-bg);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .new-message-button {
-    padding: 10px 16px;
-    border: none;
-    background-color: var(--button-bg);
-    color: rgb(255, 255, 255);
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.2s ease;
+  padding: 10px 16px;
+  border: none;
+  background-color: var(--button-bg);
+  color: var(--header-text); /* antes blanco fijo */
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
 }
 
 .new-message-button:hover {
-    background-color: var(--button-hover-bg);
+  background-color: var(--button-hover-bg);
 }
 
 .image-preview-container {
@@ -50,7 +58,7 @@
   max-height: 100px;
   border-radius: 8px;
   object-fit: cover;
-  border: 1px solid #ccc;
+  border: 1px solid var(--primary-line-color);
 }
 
 .cancel-image-button,
@@ -74,14 +82,14 @@
 }
 
 .emoji-button {
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    padding: 4px;
-    transition: transform 0.2s ease;
-  }
-  
-  .emoji-button:hover {
-    transform: scale(1.1);
-  }
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+  transition: transform 0.2s ease;
+}
+
+.emoji-button:hover {
+  transform: scale(1.1);
+}

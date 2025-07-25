@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useUser } from '../../Contexts/UserContext.jsx';
 import './styles/contactDetailsSidebar.css';
+import { IoMdClose } from "react-icons/io";
 
 export default function ContactDetailsSidebar({ contact, onClose }) {
   const { user, login, deleteContact, editContact } = useUser();
@@ -57,7 +58,8 @@ export default function ContactDetailsSidebar({ contact, onClose }) {
 
   return (
     <div className="contact-detail-panel">
-      <button className="close-btn" onClick={onClose}>×</button>
+      <button className="close-btn" onClick={onClose}><IoMdClose size={24} />
+</button>
 
       {!isEditing ? (
         <>

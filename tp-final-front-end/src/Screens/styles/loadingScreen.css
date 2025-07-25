@@ -1,4 +1,3 @@
-/* src/Components/LoadingScreen.css */
 .loading-screen {
   display: flex;
   flex-direction: column;
@@ -6,14 +5,21 @@
   justify-content: center;
   height: 100vh;
   width: 100vw;
-  background-color: #A9D6E5;
+  background-color: var(--primary-bg-color, #A9D6E5);
   font-family: sans-serif;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .loading-bar {
   width: 80%;
+  max-width: 600px;
   height: 6px;
-  background: linear-gradient(to right, #4facfe, #00f2fe);
+  background: linear-gradient(
+    to right,
+    var(--button-bg, #4facfe),
+    var(--button-hover-bg, #00f2fe)
+  );
   animation: load 1.5s linear infinite;
   margin-bottom: 16px;
   border-radius: 4px;
@@ -21,7 +27,43 @@
 
 .loading-text {
   font-size: 1.2rem;
-  color: #333;
+  color: var(--primary-text-color, #333);
+  text-align: center;
+}
+
+/* Ajustes responsive */
+
+@media (max-width: 480px) {
+  .loading-bar {
+    width: 90%;
+    height: 5px;
+  }
+
+  .loading-text {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .loading-bar {
+    width: 60%;
+    height: 8px;
+  }
+
+  .loading-text {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 1800px) {
+  .loading-bar {
+    width: 50%;
+    height: 10px;
+  }
+
+  .loading-text {
+    font-size: 1.8rem;
+  }
 }
 
 @keyframes load {

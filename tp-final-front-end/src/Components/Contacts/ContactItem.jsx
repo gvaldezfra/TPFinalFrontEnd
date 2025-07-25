@@ -51,7 +51,7 @@ export default function ContactItem({ contact, isActive, onClick, onAction }) {
       className={`contact-item ${isActive ? 'active' : ''}`}
       onClick={onClick}
     >
-      <img src={photo} alt={name} className="contact-photo" />
+      <img src={photo} alt={name} className="contact-item-photo" />
       <div className="contact-texts">
         <div className="contact-name">
           {name} {isPinned && <span className="pinned-tag">📌 Fijado</span>}

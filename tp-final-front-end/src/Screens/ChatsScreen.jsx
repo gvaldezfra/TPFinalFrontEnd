@@ -1,4 +1,4 @@
-// ChatsScreen.jsx actualizado con hamburguesa visible en chat-header o navbar según contexto
+// ChatsScreen.jsx actualizado con orientación bloqueada en móvil
 import React, { useState, useEffect } from 'react';
 import ContactsList from '../Components/Contacts/ContactList.jsx';
 import ContactDetailsSidebar from '../Components/Contacts/ContactDetailsSidebar.jsx';
@@ -10,7 +10,6 @@ import { RiChatNewLine } from "react-icons/ri";
 import { CgProfile } from "react-icons/cg";
 import { IoSettingsOutline } from "react-icons/io5";
 import { GiHamburgerMenu } from 'react-icons/gi';
-
 import useChatScreen from '../hooks/useChatScreen.js';
 
 import './styles/chatScreen.css';
@@ -42,14 +41,17 @@ export default function ChatScreen() {
     handleContactAction,
   } = useChatScreen();
 
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 780);
+  const isPhoneDevice = () =>
+    /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  const [isMobile, setIsMobile] = useState(isPhoneDevice());
   const [showMobileSidebar, setShowMobileSidebar] = useState(!isMobile);
 
   useEffect(() => {
     const handleResize = () => {
-      const isNowMobile = window.innerWidth < 780;
-      setIsMobile(isNowMobile);
-      if (!isNowMobile) setShowMobileSidebar(true);
+      const stillMobile = isPhoneDevice();
+      setIsMobile(stillMobile);
+      if (!stillMobile) setShowMobileSidebar(true);
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -107,14 +109,14 @@ export default function ChatScreen() {
           {!showSettings && !showEditProfile && !showNewChatPanel && (
             <>
               <div className="sidebar-header">
-                <span className="logo">ChatApp</span>
-                <button className="new-chat-button" onClick={() => {
+                <span className="sidebar-header-title">Chats</span>
+                <span className="new-chat-button" onClick={() => {
                   setShowNewChatPanel(true);
                   setShowEditProfile(false);
                   setShowSettings(false);
                 }}>
                   <RiChatNewLine size={30} />
-                </button>
+                </span>
               </div>
               <div className="chat-toolbar">
                 <input
