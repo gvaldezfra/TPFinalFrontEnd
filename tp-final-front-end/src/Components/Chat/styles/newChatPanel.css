@@ -18,6 +18,11 @@
   color: var(--header-bg);
 }
 
+.sidebar-header-title {
+  color: var(--header-bg);
+  margin: 0;
+}
+
 .new-contact-span {
   background-color: var(--header-bg);
   color: var(--header-text, white);
@@ -34,6 +39,15 @@
   background-color: var(--button-hover-bg);
 }
 
+.new-contact-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-direction: row;
+  font-size: 16px;
+}
+
 .section-label {
   font-weight: bold;
   margin-top: 12px;
@@ -45,6 +59,7 @@
   border: none;
   color: var(--header-bg);
   font-size: 1.2rem;
+  font-weight: 800;
   cursor: pointer;
   transition: color 0.3s ease;
 }

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import ContactsList from '../Contacts/ContactList.jsx';
 import AddContactForm from '../Contacts/AddContactForm.jsx';
 import './styles/newChatPanel.css';
+import { FaUserPlus } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
 
 
 export default function NewChatPanel({ visible,contacts, onSelect, activeContactId, onAddContact, onClose }) {
@@ -19,14 +21,17 @@ export default function NewChatPanel({ visible,contacts, onSelect, activeContact
   return (
     <div className="new-chat-panel">
       <div className="sidebar-header">
-        <h2>Nuevo chat</h2>
-        <button className="close-button" onClick={onClose}>❌</button>
+        <h2 className='sidebar-header-title'>Nuevo chat</h2>
+        <button className="close-button" onClick={onClose}><IoMdClose size={30}/></button>
       </div>
       <button
         className="new-contact-span"
         onClick={() => setShowAddForm(true)}
       >
-        ➕ Nuevo contacto
+        <span className='new-contact-button'>
+          <FaUserPlus size={20}/>
+          Nuevo contacto
+        </span>
       </button>
 
       {showAddForm ? (

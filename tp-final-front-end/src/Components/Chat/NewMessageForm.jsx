@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import EmojiPicker from 'emoji-picker-react';
 import './styles/newMessageForm.css';
 import { IoMdSend } from "react-icons/io";
+import { IoMdClose } from "react-icons/io";
+import { MdAddPhotoAlternate } from "react-icons/md";
 
 export default function NewMessageForm({ onSend }) {
   const [text, setText] = useState('');
@@ -101,7 +103,7 @@ export default function NewMessageForm({ onSend }) {
         />
 
         <label className="image-upload-button" title="Enviar imagen" aria-label="Subir imagen">
-          📷
+          <MdAddPhotoAlternate size={30}/>
           <input
             type="file"
             accept="image/*"
@@ -133,7 +135,7 @@ export default function NewMessageForm({ onSend }) {
             className="cancel-image-button"
             aria-label="Cancelar imagen seleccionada"
           >
-            ❌
+            <IoMdClose size={15}/>
           </button>
         </div>
       )}

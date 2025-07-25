@@ -57,7 +57,7 @@
 }
 
 .add-contact-actions button[type="button"] {
-  background-color: var(--btn-secondary-bg, #ccc);
+  background-color: var(--header-bg, #ccc);
   color: var(--btn-secondary-hover-bg, #333);
 }
 

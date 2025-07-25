@@ -36,7 +36,7 @@ export default function SettingsSidebar({ onClose }) {
               onClick={() => handleThemeChange(color + 'Light')}
               className="theme-button"
               style={{
-                backgroundColor: THEMES[color + 'Light']['--chat-header'],
+                backgroundColor: THEMES[color + 'Light']['--header-bg'],
                 color: THEMES[color + 'Light']['--text-color'],
                 border: user?.color === color + 'Light' ? '2px solid black' : 'none',
                 marginRight: '5px',
@@ -51,7 +51,7 @@ export default function SettingsSidebar({ onClose }) {
               onClick={() => handleThemeChange(color + 'Dark')}
               className="theme-button"
               style={{
-                backgroundColor: THEMES[color + 'Dark']['var(--chat-header)'],
+                backgroundColor: THEMES[color + 'Dark']['--header-bg'],
                 color: THEMES[color + 'Dark']['--text-color'],
                 border: user?.color === color + 'Dark' ? '2px solid black' : 'none',
               }}
