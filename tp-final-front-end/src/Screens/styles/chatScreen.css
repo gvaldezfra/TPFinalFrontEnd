@@ -53,7 +53,7 @@
 
 .sidebar-header-title {
     font-size: 40px;
-    color: var(--sidebar-text);
+    color: var(--header-bg);
 }
 
 .add-contact {
